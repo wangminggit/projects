@@ -16,12 +16,12 @@
                     </ul>
                 </li>
                 <li>
-                    <a href="#">信息中心</a>
+                    <a href=".././information_center/index" style="background: #01448D;">信息中心</a>
                     <ul class="sub_menu">
-                        <li><a href="#">青西大宗公告</a></li>
-                        <li><a href="#">青西大宗动态</a></li>
-                        <li><a href="#">会员动态</a></li>
-                        <li><a href="#">行业动态</a></li>
+                        <li><a href=".././information_center/index">青西大宗公告</a></li>
+                        <li><a href=".././information_center/dynamic_state">青西大宗动态</a></li>
+                        <li><a href=".././information_center/business">会员动态</a></li>
+                        <li><a href=".././information_center/business">行业动态</a></li>
                     </ul>
                 </li>
                 <li>

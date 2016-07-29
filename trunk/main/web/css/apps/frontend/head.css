@@ -38,6 +38,7 @@ ul.dropdown li a {
   text-align: center;
   text-decoration: none;
   font-weight: 300;
+  height: 20px;
 }
 
 ul.dropdown li a:hover,
