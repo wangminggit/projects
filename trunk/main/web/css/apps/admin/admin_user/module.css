@@ -1,0 +1,25 @@
+#user_build_password {
+    background: #4C6E93;
+    color: #fff;
+    float: left;
+}
+#user_build_password:hover {
+    background: #4C6E93;
+    color: #fff;
+}
+#user_build_password_done {
+    float: left;
+    margin-left: 20px;
+    margin-top: 3px;
+    width: 200px;
+}
+#user_build_password_done .new_password {
+    float: left;
+    width: 80px;
+}
+.sf_admin_form_field_build_password{
+    height: 25px;
+}
+#admin_user_password_bar{
+    width: 250px !important;
+}

@@ -1,0 +1,36 @@
+generator:
+  class: sfPropelGenerator
+  param:
+    model_class:           AdminUser
+    theme:                 admin15
+    non_verbose_templates: true
+    with_show:             false
+    singular:              AdminUser
+    plural:                AdminUsers
+    route_prefix:          admin_user
+    with_propel_route:     1
+    actions_base_class:    sfActions
+
+    config:
+      actions: ~
+      fields:
+        username: {label: 登录名}
+        name: {label: 姓名}
+        email: {label: E-mail}
+        change_password: {label: 修改密码}
+        password: {label: 新 密 码}
+        password_confirm: {label: 密码确认}
+        is_enabled: {label: 状态, help: 选中表示启用，反之禁用将不能登录后台}
+        admin_user_group_id: {label: 后台用户组, help: 该后台用户将继承该后台用户组所对应的权限}
+      list:
+        title: 后台用户列表
+        display: [_admin_user_group_id,name,username,_is_enabled]
+        sort: [id, desc]
+      filter:
+        display: [admin_user_group_id,username,name,email,is_enabled]
+      form:
+        display: [username,name,admin_user_group_id,email,is_enabled,change_password,password,password_confirm]
+      edit:
+        title: 编辑后台用户
+      new:
+        title: 新建后台用户

@@ -1,0 +1,3 @@
+all:
+  stylesheets: [/js/3rd/datetimepicker/css/jquery-ui-1.8.16.custom.css,/css/apps/admin/report_admin_user_login/module.css]
+  javascripts: [/js/3rd/datetimepicker/js/jquery-ui-1.8.16.custom.min.js,/js/3rd/datetimepicker/js/jquery-ui-timepicker-addon.js,/js/apps/admin/report_admin_user_login/module.js]

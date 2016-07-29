@@ -1,0 +1,178 @@
+blog:
+  class: sfPropel15RouteCollection
+  options:
+    model:                Blog
+    module:               blog
+    prefix_path:          /blog
+    column:               id
+    with_wildcard_routes: true
+
+blacklist:
+  class: sfPropel15RouteCollection
+  options:
+    model:                Blacklist
+    module:               blacklist
+    prefix_path:          /blacklist
+    column:               id
+    with_wildcard_routes: true
+
+question_answer:
+  class: sfPropel15RouteCollection
+  options:
+    model:                QuestionAnswer
+    module:               question_answer
+    prefix_path:          /question_answer
+    column:               id
+    with_wildcard_routes: true
+
+feedback:
+  class: sfPropel15RouteCollection
+  options:
+    model:                Feedback
+    module:               feedback
+    prefix_path:          /feedback
+    column:               id
+    with_wildcard_routes: true
+
+profit_list:
+  class: sfPropel15RouteCollection
+  options:
+    model:                ProfitList
+    module:               profit_list
+    prefix_path:          /profit_list
+    column:               id
+    with_wildcard_routes: true
+
+expert:
+  class: sfPropel15RouteCollection
+  options:
+    model:                Expert
+    module:               expert
+    prefix_path:          /expert
+    column:               id
+    with_wildcard_routes: true
+
+intend_user:
+  class: sfPropel15RouteCollection
+  options:
+    model:                IntendUser
+    module:               intend_user
+    prefix_path:          /intend_user
+    column:               id
+    with_wildcard_routes: true
+
+software:
+  class: sfPropel15RouteCollection
+  options:
+    model:                Software
+    module:               software
+    prefix_path:          /software
+    column:               id
+    with_wildcard_routes: true
+
+hr:
+  class: sfPropel15RouteCollection
+  options:
+    model:                Hr
+    module:               hr
+    prefix_path:          /hr
+    column:               id
+    with_wildcard_routes: true
+
+institutional_evaluation:
+  class: sfPropel15RouteCollection
+  options:
+    model:                InstitutionalEvaluation
+    module:               institutional_evaluation
+    prefix_path:          /institutional_evaluation
+    column:               id
+    with_wildcard_routes: true
+
+news:
+  class: sfPropel15RouteCollection
+  options:
+    model:                News
+    module:               news
+    prefix_path:          /news
+    column:               id
+    with_wildcard_routes: true
+
+investment_secret:
+  class: sfPropel15RouteCollection
+  options:
+    model:                InvestmentSecret
+    module:               investment_secret
+    prefix_path:          /investment_secret
+    column:               id
+    with_wildcard_routes: true
+
+daily_comment:
+  class: sfPropel15RouteCollection
+  options:
+    model:                DailyComment
+    module:               daily_comment
+    prefix_path:          /daily_comment
+    column:               id
+    with_wildcard_routes: true
+
+admin_user:
+  class: sfPropel15RouteCollection
+  options:
+    model:                AdminUser
+    module:               admin_user
+    prefix_path:          /admin_user
+    column:               id
+    with_wildcard_routes: true
+
+admin_user_group:
+  class: sfPropel15RouteCollection
+  options:
+    model:                AdminUserGroup
+    module:               admin_user_group
+    prefix_path:          /admin_user_group
+    column:               id
+    with_wildcard_routes: true
+
+setting_general:
+  class: sfPropel15RouteCollection
+  options:
+    model:                SettingGeneral
+    module:               setting_general
+    prefix_path:          /setting_general
+    column:               id
+    with_wildcard_routes: true
+
+slideshow_item:
+  class: sfPropel15RouteCollection
+  options:
+    model:                SlideshowItem
+    module:               slideshow_item
+    prefix_path:          /slideshow_item
+    column:               id
+    with_wildcard_routes: true
+
+text_box:
+  class: sfPropel15RouteCollection
+  options:
+    model:                TextBox
+    module:               text_box
+    prefix_path:          /text_box
+    column:               id
+    with_wildcard_routes: true
+
+# You can find more information about this file on the symfony website:
+# http://www.symfony-project.org/reference/1_4/en/10-Routing
+
+# default rules
+homepage:
+  url:   /
+  param: { module: sfAdminDash, action: dashboard }
+
+# generic rules
+# please, remove them by adding more specific rules
+default_index:
+  url:   /:module
+  param: { action: index }
+
+default:
+  url:   /:module/:action/*

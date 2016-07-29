@@ -1,0 +1,29 @@
+generator:
+  class: sfPropelGenerator
+  param:
+    model_class:           AdminUserGroup
+    theme:                 admin15
+    non_verbose_templates: true
+    with_show:             false
+    singular:              AdminUserGroup
+    plural:                AdminUserGroups
+    route_prefix:          admin_user_group
+    with_propel_route:     1
+    actions_base_class:    sfActions
+
+    config:
+      actions: ~
+      fields:
+        name: {label: 用户组}
+        admin_item_admin_user_group_access_list: {label: 模块授权, help: 该后台用户组下的用户可以访问的模块}
+      list:
+        title: 后台用户组列表
+        display: [name]
+      filter: 
+          display: [name]
+      form: 
+          display: [name,admin_item_admin_user_group_access_list]
+      edit:
+        title: 编辑后台用户组
+      new:
+        title: 新建后台用户组

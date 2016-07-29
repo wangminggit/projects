@@ -1,0 +1,4 @@
+all:
+  stylesheets: [/css/apps/frontend/commodity_list/module.css]
+  javascripts: []
+  

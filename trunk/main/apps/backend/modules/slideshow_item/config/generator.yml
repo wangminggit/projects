@@ -1,0 +1,34 @@
+generator:
+  class: sfPropelGenerator
+  param:
+    model_class:           SlideshowItem
+    theme:                 admin15
+    non_verbose_templates: true
+    with_show:             false
+    singular:              SlideshowItem
+    plural:                SlideshowItems
+    route_prefix:          slideshow_item
+    with_propel_route:     1
+    actions_base_class:    sfActions
+
+    config:
+      actions: ~
+      fields:
+        thumbnail: {label: 缩略图}
+        title: {label: 标题}
+        url: {label: 链接, help: 请使用http:// 或者 https:// 开头的链接地址}
+        slideshow_id: {label: 名称}
+        photo: {label: 图片}
+      list:
+        title: 幻灯片列表
+        display: [_thumbnail,title,_url]
+        sort: [position, desc]
+      filter: 
+        display: [slideshow_id]        
+      form:
+        display: [slideshow_id,title,url,photo]
+      edit:
+        title: 编辑幻灯片
+      new:
+        title: 新建幻灯片
+        display: [slideshow_id,title,url]

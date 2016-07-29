@@ -1,0 +1,32 @@
+generator:
+  class: sfPropelGenerator
+  param:
+    model_class:           Blacklist
+    theme:                 admin15
+    non_verbose_templates: true
+    with_show:             false
+    singular:              Blacklist
+    plural:                Blacklists
+    route_prefix:          blacklist
+    with_propel_route:     1
+    actions_base_class:    sfActions
+
+    config:
+      actions: ~
+      fields:
+        IP: {label: IP地址}
+        reason: {label: 事由}
+        created_at: {label: 添加日期}
+      list:
+        title: 黑名单列表
+        display: [id,IP,reason,_created_at]
+        object_actions: { _delete: ~}
+        sort: [id, desc]
+      filter:
+        display: [IP]
+      form: 
+          display: [IP, reason]
+      edit:
+        title: 编辑黑名单
+      new:
+        title: 新建黑名单

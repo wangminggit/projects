@@ -1,0 +1,14 @@
+#news_title{
+    width: 500px !important;
+}
+
+#news_body{
+    width: 780px !important;
+    height: 300px !important;
+}
+
+#news_summary{
+    width: 780px !important;
+    height: 150px !important;
+    resize: none;
+}

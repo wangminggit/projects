@@ -1,0 +1,37 @@
+generator:
+  class: sfPropelGenerator
+  param:
+    model_class:           SettingGeneral
+    theme:                 admin15
+    non_verbose_templates: true
+    with_show:             false
+    singular:              SettingGeneral
+    plural:                SettingGenerals
+    route_prefix:          setting_general
+    with_propel_route:     1
+    actions_base_class:    sfActions
+
+    config:
+      actions: ~
+      fields:  
+        system_email_smtp_host: {label: SMTP 服务器}
+        system_email_smtp_port: {label: SMTP 端口}
+        system_email_smtp_use_ssl: {label: 是否使用 SSL}
+        system_email_smtp_username: {label: SMTP 用户名}
+        system_email_smtp_password: {label: SMTP 密码}
+        system_email_from_accout: {label: 系统邮件发送帐号, help: 系统邮件将从该账户发出}
+        seo_title: {label: SEO 标题, help: 全局默认SEO标题后缀}
+        seo_meta_keywords: {label: SEO 关键词, help: 全局默认SEO关键词}
+        seo_meta_description: {label: SEO 描述, help: 全局默认SEO描述}
+        statistical_code: {label: 统计代码, help: 站点统计代码}
+      list:    ~
+      filter:  ~
+      form:    ~
+      edit:    
+        title: 系统设置
+        display: 
+          "SMTP 设置": [system_email_smtp_host,system_email_smtp_port,system_email_smtp_use_ssl,system_email_smtp_username,system_email_smtp_password]
+          "其它设置": [system_email_from_accout,statistical_code]
+          "SEO 设置": [seo_meta_keywords,seo_meta_description]
+        actions: {_save: ~ }
+      new:     ~

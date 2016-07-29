@@ -1,0 +1,2 @@
+all:
+  stylesheets: [/css/apps/admin/landing/module.css]

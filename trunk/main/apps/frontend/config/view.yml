@@ -1,0 +1,18 @@
+# You can find more information about this file on the symfony website:
+# http://www.symfony-project.org/reference/1_4/en/13-View
+
+default:
+  http_metas:
+    content-type: text/html
+
+  metas:
+   # title:       青西大宗
+    #language:     en
+    #robots:       index, follow
+
+  stylesheets:    [reset.css,/css/3rd/font-awesome/css/font-awesome.min.css,/css/apps/frontend/head.css,/css/apps/frontend/app.css]
+
+  javascripts:    [/js/jquery-1.7.2.min.js,/js/jquery-1.8.3.min.js,jquery.tools.min.js,scrolltopcontrol.js,/js/head.js]
+
+  has_layout:     true
+  layout:         layout

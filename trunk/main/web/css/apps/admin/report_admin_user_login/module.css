@@ -1,0 +1,151 @@
+#sf_admin_container .filters {
+    clear: both;
+}
+#sf_admin_container fieldset {
+    border: 1px solid #CCCCCC;
+    margin-bottom: 10px;
+    margin-top: 10px;
+    padding:10px;
+    padding-top: 20px;
+}
+
+#sf_admin_container thead tr {
+    border:none;
+}
+
+#sf_admin_container .sf_admin_list {
+
+}
+#sf_admin_container ul li{
+    list-style: none;
+}
+
+#sf_admin_container .details_table  {
+    border: 1px solid #CCCCCC;
+    margin: 10px;
+    padding:10px;
+    padding-top: 20px;
+    width: 100%;
+    background: #FFFFFF !important; 
+}
+#sf_admin_container .details_table td,#sf_admin_container .details_table th {
+    background: #FFFFFF; 
+    text-align: center;
+}
+#sf_admin_container  .year_filter {
+    margin-bottom: 20px;
+    margin-top: 20px;
+}
+
+#sf_admin_container  .year_filter ul{
+    padding-left: 10px;
+}
+
+#sf_admin_container  .year_filter li{
+    width: 60px;
+    height:27px;
+    font-size: 14px;
+    display: inline-block;
+    text-align: center;
+    margin-top: 10px;
+}
+
+#sf_admin_container  .year_filter li a{
+    background:#666666;
+    color:#fff;
+    padding: 2px 9px;
+    border-radius:5px;
+}
+#sf_admin_container  .year_filter li a.active{
+    background:#2B91CE;
+}
+
+#sf_admin_container a {
+    color: #4C6E93;
+}
+
+.filter_option {
+    height: 20px;
+    margin:0px;
+    padding:0px;
+}
+.filter_option li {
+    height: 20px;
+    width: 250px;
+    float: left;
+    list-style-image: none;
+    list-style-position: outside;
+    list-style-type: none;
+    margin-left: 0;
+    margin-top: 10px;
+}
+.filter_option li input[type=text] {
+    height: 20px;
+    padding:0px;
+}
+.filter_option li label {
+    float: left;
+    font-size: 12px;
+    text-align: right;
+    width: 80px;
+    width: 120px;
+}
+
+.filter_option li .standard_date {
+    margin-left: 5px;
+    padding:0px;
+    width: 167px;
+}
+.export_icons {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    float: right;
+}
+.export_icons img {
+    margin-bottom: -3px;
+    margin-right: 2px;
+}
+#sf_admin_container  .export_icons  a {
+    color: #000;
+}
+/* pager */
+.pager {
+    font-size:12px;
+    clear:both;
+    color:#7498BB;
+    display:block;
+    height:30px;
+    margin:20px auto auto;
+    text-align:center;
+    width:100%;
+}
+.pager #current_page {
+    background:#EBEBEB none repeat scroll 0 0;
+    color:#419CD3;
+    font-weight:bold;
+    padding:0 8px;
+}
+.pager a {
+    color:#b2b1b1;
+    font-weight:bold;
+    padding:0 8px;
+    text-decoration:none;
+}
+.pager a:hover {
+    color:#419CD3;
+    background:#EFEBEF none repeat scroll 0 0;
+}
+/* /pager */
+
+.sf_admin_list{
+    width: auto;
+}
+
+#sf_admin_container .sf_admin_list td{
+    padding: 10px 6px;
+}
+
+#log_event_id,#admin_user_id{
+    width: 122px;
+    height: 22px;
+}
