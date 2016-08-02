@@ -37,10 +37,22 @@ abstract class BaseNews extends BaseObject  implements Persistent
 	protected $created_by_admin_user_id;
 
 	/**
+	 * The value for the news_category_id field.
+	 * @var        int
+	 */
+	protected $news_category_id;
+
+	/**
 	 * The value for the title field.
 	 * @var        string
 	 */
 	protected $title;
+
+	/**
+	 * The value for the release_date field.
+	 * @var        string
+	 */
+	protected $release_date;
 
 	/**
 	 * The value for the image field.
@@ -61,6 +73,12 @@ abstract class BaseNews extends BaseObject  implements Persistent
 	protected $body;
 
 	/**
+	 * The value for the page_view field.
+	 * @var        int
+	 */
+	protected $page_view;
+
+	/**
 	 * The value for the is_enable field.
 	 * Note: this column has a database default value of: 1
 	 * @var        int
@@ -68,16 +86,22 @@ abstract class BaseNews extends BaseObject  implements Persistent
 	protected $is_enable;
 
 	/**
-	 * The value for the is_show_homepage field.
-	 * @var        int
-	 */
-	protected $is_show_homepage;
-
-	/**
 	 * The value for the position field.
 	 * @var        int
 	 */
 	protected $position;
+
+	/**
+	 * The value for the seo_keywords field.
+	 * @var        string
+	 */
+	protected $seo_keywords;
+
+	/**
+	 * The value for the seo_description field.
+	 * @var        string
+	 */
+	protected $seo_description;
 
 	/**
 	 * The value for the created_at field.
@@ -90,6 +114,11 @@ abstract class BaseNews extends BaseObject  implements Persistent
 	 * @var        int
 	 */
 	protected $updated_at;
+ 
+ 	/**
+	 * @var        NewsCategory
+	 */
+	protected $aNewsCategory;
 
 	/**
 	 * @var        AdminUser
@@ -152,6 +181,16 @@ abstract class BaseNews extends BaseObject  implements Persistent
 	}
 
 	/**
+	 * Get the [news_category_id] column value.
+	 * 
+	 * @return     int
+	 */
+	public function getNewsCategoryId()
+	{
+		return $this->news_category_id;
+	}
+
+	/**
 	 * Get the [title] column value.
 	 * 
 	 * @return     string
@@ -159,6 +198,44 @@ abstract class BaseNews extends BaseObject  implements Persistent
 	public function getTitle()
 	{
 		return $this->title;
+	}
+
+	/**
+	 * Get the [optionally formatted] temporal [release_date] column value.
+	 * 
+	 *
+	 * @param      string $format The date/time format string (either date()-style or strftime()-style).
+	 *							If format is NULL, then the raw DateTime object will be returned.
+	 * @return     mixed Formatted date/time value as string or DateTime object (if format is NULL), NULL if column is NULL, and 0 if column value is 0000-00-00
+	 * @throws     PropelException - if unable to parse/validate the date/time value.
+	 */
+	public function getReleaseDate($format = 'Y-m-d')
+	{
+		if ($this->release_date === null) {
+			return null;
+		}
+
+
+		if ($this->release_date === '0000-00-00') {
+			// while technically this is not a default value of NULL,
+			// this seems to be closest in meaning.
+			return null;
+		} else {
+			try {
+				$dt = new DateTime($this->release_date);
+			} catch (Exception $x) {
+				throw new PropelException("Internally stored date/time/timestamp value could not be converted to DateTime: " . var_export($this->release_date, true), $x);
+			}
+		}
+
+		if ($format === null) {
+			// Because propel.useDateTimeClass is TRUE, we return a DateTime object.
+			return $dt;
+		} elseif (strpos($format, '%') !== false) {
+			return strftime($format, $dt->format('U'));
+		} else {
+			return $dt->format($format);
+		}
 	}
 
 	/**
@@ -192,6 +269,16 @@ abstract class BaseNews extends BaseObject  implements Persistent
 	}
 
 	/**
+	 * Get the [page_view] column value.
+	 * 
+	 * @return     int
+	 */
+	public function getPageView()
+	{
+		return $this->page_view;
+	}
+
+	/**
 	 * Get the [is_enable] column value.
 	 * 
 	 * @return     int
@@ -202,16 +289,6 @@ abstract class BaseNews extends BaseObject  implements Persistent
 	}
 
 	/**
-	 * Get the [is_show_homepage] column value.
-	 * 
-	 * @return     int
-	 */
-	public function getIsShowHomepage()
-	{
-		return $this->is_show_homepage;
-	}
-
-	/**
 	 * Get the [position] column value.
 	 * 
 	 * @return     int
@@ -219,6 +296,26 @@ abstract class BaseNews extends BaseObject  implements Persistent
 	public function getPosition()
 	{
 		return $this->position;
+	}
+
+	/**
+	 * Get the [seo_keywords] column value.
+	 * 
+	 * @return     string
+	 */
+	public function getSeoKeywords()
+	{
+		return $this->seo_keywords;
+	}
+
+	/**
+	 * Get the [seo_description] column value.
+	 * 
+	 * @return     string
+	 */
+	public function getSeoDescription()
+	{
+		return $this->seo_description;
 	}
 
 	/**
@@ -286,6 +383,26 @@ abstract class BaseNews extends BaseObject  implements Persistent
 	} // setCreatedByAdminUserId()
 
 	/**
+	 * Set the value of [news_category_id] column.
+	 * 
+	 * @param      int $v new value
+	 * @return     News The current object (for fluent API support)
+	 */
+	public function setNewsCategoryId($v)
+	{
+		if ($v !== null) {
+			$v = (int) $v;
+		}
+
+		if ($this->news_category_id !== $v) {
+			$this->news_category_id = $v;
+			$this->modifiedColumns[] = NewsPeer::NEWS_CATEGORY_ID;
+		}
+
+		return $this;
+	} // setNewsCategoryId()
+
+	/**
 	 * Set the value of [title] column.
 	 * 
 	 * @param      string $v new value
@@ -304,6 +421,55 @@ abstract class BaseNews extends BaseObject  implements Persistent
 
 		return $this;
 	} // setTitle()
+
+	/**
+	 * Sets the value of [release_date] column to a normalized version of the date/time value specified.
+	 * 
+	 * @param      mixed $v string, integer (timestamp), or DateTime value.  Empty string will
+	 *						be treated as NULL for temporal objects.
+	 * @return     News The current object (for fluent API support)
+	 */
+	public function setReleaseDate($v)
+	{
+		// we treat '' as NULL for temporal objects because DateTime('') == DateTime('now')
+		// -- which is unexpected, to say the least.
+		if ($v === null || $v === '') {
+			$dt = null;
+		} elseif ($v instanceof DateTime) {
+			$dt = $v;
+		} else {
+			// some string/numeric value passed; we normalize that so that we can
+			// validate it.
+			try {
+				if (is_numeric($v)) { // if it's a unix timestamp
+					$dt = new DateTime('@'.$v, new DateTimeZone('UTC'));
+					// We have to explicitly specify and then change the time zone because of a
+					// DateTime bug: http://bugs.php.net/bug.php?id=43003
+					$dt->setTimeZone(new DateTimeZone(date_default_timezone_get()));
+				} else {
+					$dt = new DateTime($v);
+				}
+			} catch (Exception $x) {
+				throw new PropelException('Error parsing date/time value: ' . var_export($v, true), $x);
+			}
+		}
+
+		if ( $this->release_date !== null || $dt !== null ) {
+			// (nested ifs are a little easier to read in this case)
+
+			$currNorm = ($this->release_date !== null && $tmpDt = new DateTime($this->release_date)) ? $tmpDt->format('Y-m-d') : null;
+			$newNorm = ($dt !== null) ? $dt->format('Y-m-d') : null;
+
+			if ( ($currNorm !== $newNorm) // normalized values don't match 
+					)
+			{
+				$this->release_date = ($dt ? $dt->format('Y-m-d') : null);
+				$this->modifiedColumns[] = NewsPeer::RELEASE_DATE;
+			}
+		} // if either are not null
+
+		return $this;
+	} // setReleaseDate()
 
 	/**
 	 * Set the value of [image] column.
@@ -366,6 +532,26 @@ abstract class BaseNews extends BaseObject  implements Persistent
 	} // setBody()
 
 	/**
+	 * Set the value of [page_view] column.
+	 * 
+	 * @param      int $v new value
+	 * @return     News The current object (for fluent API support)
+	 */
+	public function setPageView($v)
+	{
+		if ($v !== null) {
+			$v = (int) $v;
+		}
+
+		if ($this->page_view !== $v) {
+			$this->page_view = $v;
+			$this->modifiedColumns[] = NewsPeer::PAGE_VIEW;
+		}
+
+		return $this;
+	} // setPageView()
+
+	/**
 	 * Set the value of [is_enable] column.
 	 * 
 	 * @param      int $v new value
@@ -386,26 +572,6 @@ abstract class BaseNews extends BaseObject  implements Persistent
 	} // setIsEnable()
 
 	/**
-	 * Set the value of [is_show_homepage] column.
-	 * 
-	 * @param      int $v new value
-	 * @return     News The current object (for fluent API support)
-	 */
-	public function setIsShowHomepage($v)
-	{
-		if ($v !== null) {
-			$v = (int) $v;
-		}
-
-		if ($this->is_show_homepage !== $v) {
-			$this->is_show_homepage = $v;
-			$this->modifiedColumns[] = NewsPeer::IS_SHOW_HOMEPAGE;
-		}
-
-		return $this;
-	} // setIsShowHomepage()
-
-	/**
 	 * Set the value of [position] column.
 	 * 
 	 * @param      int $v new value
@@ -424,6 +590,46 @@ abstract class BaseNews extends BaseObject  implements Persistent
 
 		return $this;
 	} // setPosition()
+
+	/**
+	 * Set the value of [seo_keywords] column.
+	 * 
+	 * @param      string $v new value
+	 * @return     News The current object (for fluent API support)
+	 */
+	public function setSeoKeywords($v)
+	{
+		if ($v !== null) {
+			$v = (string) $v;
+		}
+
+		if ($this->seo_keywords !== $v) {
+			$this->seo_keywords = $v;
+			$this->modifiedColumns[] = NewsPeer::SEO_KEYWORDS;
+		}
+
+		return $this;
+	} // setSeoKeywords()
+
+	/**
+	 * Set the value of [seo_description] column.
+	 * 
+	 * @param      string $v new value
+	 * @return     News The current object (for fluent API support)
+	 */
+	public function setSeoDescription($v)
+	{
+		if ($v !== null) {
+			$v = (string) $v;
+		}
+
+		if ($this->seo_description !== $v) {
+			$this->seo_description = $v;
+			$this->modifiedColumns[] = NewsPeer::SEO_DESCRIPTION;
+		}
+
+		return $this;
+	} // setSeoDescription()
 
 	/**
 	 * Set the value of [created_at] column.
@@ -503,15 +709,19 @@ abstract class BaseNews extends BaseObject  implements Persistent
 
 			$this->id = ($row[$startcol + 0] !== null) ? (int) $row[$startcol + 0] : null;
 			$this->created_by_admin_user_id = ($row[$startcol + 1] !== null) ? (int) $row[$startcol + 1] : null;
-			$this->title = ($row[$startcol + 2] !== null) ? (string) $row[$startcol + 2] : null;
-			$this->image = ($row[$startcol + 3] !== null) ? (string) $row[$startcol + 3] : null;
-			$this->summary = ($row[$startcol + 4] !== null) ? (string) $row[$startcol + 4] : null;
-			$this->body = ($row[$startcol + 5] !== null) ? (string) $row[$startcol + 5] : null;
-			$this->is_enable = ($row[$startcol + 6] !== null) ? (int) $row[$startcol + 6] : null;
-			$this->is_show_homepage = ($row[$startcol + 7] !== null) ? (int) $row[$startcol + 7] : null;
-			$this->position = ($row[$startcol + 8] !== null) ? (int) $row[$startcol + 8] : null;
-			$this->created_at = ($row[$startcol + 9] !== null) ? (int) $row[$startcol + 9] : null;
-			$this->updated_at = ($row[$startcol + 10] !== null) ? (int) $row[$startcol + 10] : null;
+			$this->news_category_id = ($row[$startcol + 2] !== null) ? (int) $row[$startcol + 2] : null;
+			$this->title = ($row[$startcol + 3] !== null) ? (string) $row[$startcol + 3] : null;
+			$this->release_date = ($row[$startcol + 4] !== null) ? (string) $row[$startcol + 4] : null;
+			$this->image = ($row[$startcol + 5] !== null) ? (string) $row[$startcol + 5] : null;
+			$this->summary = ($row[$startcol + 6] !== null) ? (string) $row[$startcol + 6] : null;
+			$this->body = ($row[$startcol + 7] !== null) ? (string) $row[$startcol + 7] : null;
+			$this->page_view = ($row[$startcol + 8] !== null) ? (int) $row[$startcol + 8] : null;
+			$this->is_enable = ($row[$startcol + 9] !== null) ? (int) $row[$startcol + 9] : null;
+			$this->position = ($row[$startcol + 10] !== null) ? (int) $row[$startcol + 10] : null;
+			$this->seo_keywords = ($row[$startcol + 11] !== null) ? (string) $row[$startcol + 11] : null;
+			$this->seo_description = ($row[$startcol + 12] !== null) ? (string) $row[$startcol + 12] : null;
+			$this->created_at = ($row[$startcol + 13] !== null) ? (int) $row[$startcol + 13] : null;
+			$this->updated_at = ($row[$startcol + 14] !== null) ? (int) $row[$startcol + 14] : null;
 			$this->resetModified();
 
 			$this->setNew(false);
@@ -520,7 +730,7 @@ abstract class BaseNews extends BaseObject  implements Persistent
 				$this->ensureConsistency();
 			}
 
-			return $startcol + 11; // 11 = NewsPeer::NUM_COLUMNS - NewsPeer::NUM_LAZY_LOAD_COLUMNS).
+			return $startcol + 15; // 15 = NewsPeer::NUM_COLUMNS - NewsPeer::NUM_LAZY_LOAD_COLUMNS).
 
 		} catch (Exception $e) {
 			throw new PropelException("Error populating News object", $e);
@@ -898,30 +1108,42 @@ abstract class BaseNews extends BaseObject  implements Persistent
 				return $this->getCreatedByAdminUserId();
 				break;
 			case 2:
-				return $this->getTitle();
+				return $this->getNewsCategoryId();
 				break;
 			case 3:
-				return $this->getImage();
+				return $this->getTitle();
 				break;
 			case 4:
-				return $this->getSummary();
+				return $this->getReleaseDate();
 				break;
 			case 5:
-				return $this->getBody();
+				return $this->getImage();
 				break;
 			case 6:
-				return $this->getIsEnable();
+				return $this->getSummary();
 				break;
 			case 7:
-				return $this->getIsShowHomepage();
+				return $this->getBody();
 				break;
 			case 8:
-				return $this->getPosition();
+				return $this->getPageView();
 				break;
 			case 9:
-				return $this->getCreatedAt();
+				return $this->getIsEnable();
 				break;
 			case 10:
+				return $this->getPosition();
+				break;
+			case 11:
+				return $this->getSeoKeywords();
+				break;
+			case 12:
+				return $this->getSeoDescription();
+				break;
+			case 13:
+				return $this->getCreatedAt();
+				break;
+			case 14:
 				return $this->getUpdatedAt();
 				break;
 			default:
@@ -950,15 +1172,19 @@ abstract class BaseNews extends BaseObject  implements Persistent
 		$result = array(
 			$keys[0] => $this->getId(),
 			$keys[1] => $this->getCreatedByAdminUserId(),
-			$keys[2] => $this->getTitle(),
-			$keys[3] => $this->getImage(),
-			$keys[4] => $this->getSummary(),
-			$keys[5] => $this->getBody(),
-			$keys[6] => $this->getIsEnable(),
-			$keys[7] => $this->getIsShowHomepage(),
-			$keys[8] => $this->getPosition(),
-			$keys[9] => $this->getCreatedAt(),
-			$keys[10] => $this->getUpdatedAt(),
+			$keys[2] => $this->getNewsCategoryId(),
+			$keys[3] => $this->getTitle(),
+			$keys[4] => $this->getReleaseDate(),
+			$keys[5] => $this->getImage(),
+			$keys[6] => $this->getSummary(),
+			$keys[7] => $this->getBody(),
+			$keys[8] => $this->getPageView(),
+			$keys[9] => $this->getIsEnable(),
+			$keys[10] => $this->getPosition(),
+			$keys[11] => $this->getSeoKeywords(),
+			$keys[12] => $this->getSeoDescription(),
+			$keys[13] => $this->getCreatedAt(),
+			$keys[14] => $this->getUpdatedAt(),
 		);
 		if ($includeForeignObjects) {
 			if (null !== $this->aAdminUser) {
@@ -1002,30 +1228,42 @@ abstract class BaseNews extends BaseObject  implements Persistent
 				$this->setCreatedByAdminUserId($value);
 				break;
 			case 2:
-				$this->setTitle($value);
+				$this->setNewsCategoryId($value);
 				break;
 			case 3:
-				$this->setImage($value);
+				$this->setTitle($value);
 				break;
 			case 4:
-				$this->setSummary($value);
+				$this->setReleaseDate($value);
 				break;
 			case 5:
-				$this->setBody($value);
+				$this->setImage($value);
 				break;
 			case 6:
-				$this->setIsEnable($value);
+				$this->setSummary($value);
 				break;
 			case 7:
-				$this->setIsShowHomepage($value);
+				$this->setBody($value);
 				break;
 			case 8:
-				$this->setPosition($value);
+				$this->setPageView($value);
 				break;
 			case 9:
-				$this->setCreatedAt($value);
+				$this->setIsEnable($value);
 				break;
 			case 10:
+				$this->setPosition($value);
+				break;
+			case 11:
+				$this->setSeoKeywords($value);
+				break;
+			case 12:
+				$this->setSeoDescription($value);
+				break;
+			case 13:
+				$this->setCreatedAt($value);
+				break;
+			case 14:
 				$this->setUpdatedAt($value);
 				break;
 		} // switch()
@@ -1054,15 +1292,19 @@ abstract class BaseNews extends BaseObject  implements Persistent
 
 		if (array_key_exists($keys[0], $arr)) $this->setId($arr[$keys[0]]);
 		if (array_key_exists($keys[1], $arr)) $this->setCreatedByAdminUserId($arr[$keys[1]]);
-		if (array_key_exists($keys[2], $arr)) $this->setTitle($arr[$keys[2]]);
-		if (array_key_exists($keys[3], $arr)) $this->setImage($arr[$keys[3]]);
-		if (array_key_exists($keys[4], $arr)) $this->setSummary($arr[$keys[4]]);
-		if (array_key_exists($keys[5], $arr)) $this->setBody($arr[$keys[5]]);
-		if (array_key_exists($keys[6], $arr)) $this->setIsEnable($arr[$keys[6]]);
-		if (array_key_exists($keys[7], $arr)) $this->setIsShowHomepage($arr[$keys[7]]);
-		if (array_key_exists($keys[8], $arr)) $this->setPosition($arr[$keys[8]]);
-		if (array_key_exists($keys[9], $arr)) $this->setCreatedAt($arr[$keys[9]]);
-		if (array_key_exists($keys[10], $arr)) $this->setUpdatedAt($arr[$keys[10]]);
+		if (array_key_exists($keys[2], $arr)) $this->setNewsCategoryId($arr[$keys[2]]);
+		if (array_key_exists($keys[3], $arr)) $this->setTitle($arr[$keys[3]]);
+		if (array_key_exists($keys[4], $arr)) $this->setReleaseDate($arr[$keys[4]]);
+		if (array_key_exists($keys[5], $arr)) $this->setImage($arr[$keys[5]]);
+		if (array_key_exists($keys[6], $arr)) $this->setSummary($arr[$keys[6]]);
+		if (array_key_exists($keys[7], $arr)) $this->setBody($arr[$keys[7]]);
+		if (array_key_exists($keys[8], $arr)) $this->setPageView($arr[$keys[8]]);
+		if (array_key_exists($keys[9], $arr)) $this->setIsEnable($arr[$keys[9]]);
+		if (array_key_exists($keys[10], $arr)) $this->setPosition($arr[$keys[10]]);
+		if (array_key_exists($keys[11], $arr)) $this->setSeoKeywords($arr[$keys[11]]);
+		if (array_key_exists($keys[12], $arr)) $this->setSeoDescription($arr[$keys[12]]);
+		if (array_key_exists($keys[13], $arr)) $this->setCreatedAt($arr[$keys[13]]);
+		if (array_key_exists($keys[14], $arr)) $this->setUpdatedAt($arr[$keys[14]]);
 	}
 
 	/**
@@ -1076,13 +1318,17 @@ abstract class BaseNews extends BaseObject  implements Persistent
 
 		if ($this->isColumnModified(NewsPeer::ID)) $criteria->add(NewsPeer::ID, $this->id);
 		if ($this->isColumnModified(NewsPeer::CREATED_BY_ADMIN_USER_ID)) $criteria->add(NewsPeer::CREATED_BY_ADMIN_USER_ID, $this->created_by_admin_user_id);
+		if ($this->isColumnModified(NewsPeer::NEWS_CATEGORY_ID)) $criteria->add(NewsPeer::NEWS_CATEGORY_ID, $this->news_category_id);
 		if ($this->isColumnModified(NewsPeer::TITLE)) $criteria->add(NewsPeer::TITLE, $this->title);
+		if ($this->isColumnModified(NewsPeer::RELEASE_DATE)) $criteria->add(NewsPeer::RELEASE_DATE, $this->release_date);
 		if ($this->isColumnModified(NewsPeer::IMAGE)) $criteria->add(NewsPeer::IMAGE, $this->image);
 		if ($this->isColumnModified(NewsPeer::SUMMARY)) $criteria->add(NewsPeer::SUMMARY, $this->summary);
 		if ($this->isColumnModified(NewsPeer::BODY)) $criteria->add(NewsPeer::BODY, $this->body);
+		if ($this->isColumnModified(NewsPeer::PAGE_VIEW)) $criteria->add(NewsPeer::PAGE_VIEW, $this->page_view);
 		if ($this->isColumnModified(NewsPeer::IS_ENABLE)) $criteria->add(NewsPeer::IS_ENABLE, $this->is_enable);
-		if ($this->isColumnModified(NewsPeer::IS_SHOW_HOMEPAGE)) $criteria->add(NewsPeer::IS_SHOW_HOMEPAGE, $this->is_show_homepage);
 		if ($this->isColumnModified(NewsPeer::POSITION)) $criteria->add(NewsPeer::POSITION, $this->position);
+		if ($this->isColumnModified(NewsPeer::SEO_KEYWORDS)) $criteria->add(NewsPeer::SEO_KEYWORDS, $this->seo_keywords);
+		if ($this->isColumnModified(NewsPeer::SEO_DESCRIPTION)) $criteria->add(NewsPeer::SEO_DESCRIPTION, $this->seo_description);
 		if ($this->isColumnModified(NewsPeer::CREATED_AT)) $criteria->add(NewsPeer::CREATED_AT, $this->created_at);
 		if ($this->isColumnModified(NewsPeer::UPDATED_AT)) $criteria->add(NewsPeer::UPDATED_AT, $this->updated_at);
 
@@ -1147,13 +1393,17 @@ abstract class BaseNews extends BaseObject  implements Persistent
 	public function copyInto($copyObj, $deepCopy = false)
 	{
 		$copyObj->setCreatedByAdminUserId($this->created_by_admin_user_id);
+		$copyObj->setNewsCategoryId($this->news_category_id);
 		$copyObj->setTitle($this->title);
+		$copyObj->setReleaseDate($this->release_date);
 		$copyObj->setImage($this->image);
 		$copyObj->setSummary($this->summary);
 		$copyObj->setBody($this->body);
+		$copyObj->setPageView($this->page_view);
 		$copyObj->setIsEnable($this->is_enable);
-		$copyObj->setIsShowHomepage($this->is_show_homepage);
 		$copyObj->setPosition($this->position);
+		$copyObj->setSeoKeywords($this->seo_keywords);
+		$copyObj->setSeoDescription($this->seo_description);
 		$copyObj->setCreatedAt($this->created_at);
 		$copyObj->setUpdatedAt($this->updated_at);
 
@@ -1255,13 +1505,17 @@ abstract class BaseNews extends BaseObject  implements Persistent
 	{
 		$this->id = null;
 		$this->created_by_admin_user_id = null;
+		$this->news_category_id = null;
 		$this->title = null;
+		$this->release_date = null;
 		$this->image = null;
 		$this->summary = null;
 		$this->body = null;
+		$this->page_view = null;
 		$this->is_enable = null;
-		$this->is_show_homepage = null;
 		$this->position = null;
+		$this->seo_keywords = null;
+		$this->seo_description = null;
 		$this->created_at = null;
 		$this->updated_at = null;
 		$this->alreadyInSave = false;
@@ -1314,6 +1568,54 @@ abstract class BaseNews extends BaseObject  implements Persistent
 			}
 		}
 		return parent::__call($name, $params);
+	}
+ /**
+	 * Declares an association between this object and a NewsCategory object.
+	 *
+	 * @param      NewsCategory $v
+	 * @return     News The current object (for fluent API support)
+	 * @throws     PropelException
+	 */
+	public function setNewsCategory(NewsCategory $v = null)
+	{
+		if ($v === null) {
+			$this->setNewsCategoryId(NULL);
+		} else {
+			$this->setNewsCategoryId($v->getId());
+		}
+
+		$this->aNewsCategory = $v;
+
+		// Add binding for other direction of this n:n relationship.
+		// If this object has already been added to the NewsCategory object, it will not be re-added.
+		if ($v !== null) {
+			$v->addNews($this);
+		}
+
+		return $this;
+	}
+
+
+	/**
+	 * Get the associated NewsCategory object
+	 *
+	 * @param      PropelPDO Optional Connection object.
+	 * @return     NewsCategory The associated NewsCategory object.
+	 * @throws     PropelException
+	 */
+	public function getNewsCategory(PropelPDO $con = null)
+	{
+		if ($this->aNewsCategory === null && ($this->news_category_id !== null)) {
+			$this->aNewsCategory = NewsCategoryQuery::create()->findPk($this->news_category_id, $con);
+			/* The following can be used additionally to
+				 guarantee the related object contains a reference
+				 to this object.  This level of coupling may, however, be
+				 undesirable since it could result in an only partially populated collection
+				 in the referenced object.
+				 $this->aNewsCategory->addNewss($this);
+			 */
+		}
+		return $this->aNewsCategory;
 	}
 
 } // BaseNews

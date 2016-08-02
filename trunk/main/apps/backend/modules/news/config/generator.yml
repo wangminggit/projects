@@ -15,21 +15,25 @@ generator:
       actions: ~
       fields:
         title: {label: 标题}
+        news_category_id: {label: 类别}
+        release_date: {label: 发布日期}
         body: {label: 正文内容}
         is_enable: {label: 状态, help: 勾选之后则可以正常访问，否则将不能访问该文章}
         created_at: {label: 添加日期}
         image: {label: 缩略图}
+        page_view: {label: 浏览量}
         summary: {label: 摘要}
-        is_show_homepage: {label: 首页显示, help: 勾选之后在首页将高亮显示（缩略图，标题，摘要）}
+        seo_keywords: {label: 关键词}
+        seo_description: {label: 描述}
       list:
-        title: 非农新闻列表
-        display: [id,_title,_is_enable,_created_at]
+        title: 信息中心列表
+        display: [id,_news_category_id,_title,_is_enable,page_view,_release_date]
         sort: [id, desc]
       filter:
-        display: [title,is_enable,is_show_homepage]
+        display: [news_category_id,title,release_date,is_enable]
       form:
-        display: [title,image,summary,body,is_enable,is_show_homepage]
+        display: [news_category_id,title,release_date,image,summary,body,page_view,is_enable]
       edit:
-        title: 编辑非农新闻
+        title: 编辑信息
       new:
-        title: 新建非农新闻
+        title: 新建信息

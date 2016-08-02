@@ -39,13 +39,17 @@ class NewsTableMap extends TableMap {
 		// columns
 		$this->addPrimaryKey('ID', 'Id', 'INTEGER', true, 11, null);
 		$this->addForeignKey('CREATED_BY_ADMIN_USER_ID', 'CreatedByAdminUserId', 'INTEGER', 'admin_user', 'ID', false, 11, null);
+		$this->addColumn('NEWS_CATEGORY_ID', 'NewsCategoryId', 'INTEGER', false, 11, null);
 		$this->addColumn('TITLE', 'Title', 'VARCHAR', true, 255, null);
+		$this->addColumn('RELEASE_DATE', 'ReleaseDate', 'DATE', false, null, null);
 		$this->addColumn('IMAGE', 'Image', 'VARCHAR', false, 255, null);
 		$this->addColumn('SUMMARY', 'Summary', 'LONGVARCHAR', false, null, null);
 		$this->addColumn('BODY', 'Body', 'LONGVARCHAR', false, null, null);
+		$this->addColumn('PAGE_VIEW', 'PageView', 'INTEGER', false, 11, null);
 		$this->addColumn('IS_ENABLE', 'IsEnable', 'INTEGER', false, 11, 1);
-		$this->addColumn('IS_SHOW_HOMEPAGE', 'IsShowHomepage', 'TINYINT', false, 4, null);
 		$this->addColumn('POSITION', 'Position', 'INTEGER', false, 11, null);
+		$this->addColumn('SEO_KEYWORDS', 'SeoKeywords', 'LONGVARCHAR', false, null, null);
+		$this->addColumn('SEO_DESCRIPTION', 'SeoDescription', 'LONGVARCHAR', false, null, null);
 		$this->addColumn('CREATED_AT', 'CreatedAt', 'INTEGER', false, 11, null);
 		$this->addColumn('UPDATED_AT', 'UpdatedAt', 'INTEGER', false, 11, null);
 		// validators

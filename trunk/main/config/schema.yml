@@ -61,16 +61,6 @@ propel:
     reason: { phpName: Reason, type: VARCHAR, size: '255', required: false }
     created_at: { phpName: CreatedAt, type: INTEGER, size: '11', required: false }
     updated_at: { phpName: UpdatedAt, type: INTEGER, size: '11', required: false }
-  blog:
-    _attributes: { phpName: Blog }
-    id: { phpName: Id, type: INTEGER, size: '11', primaryKey: true, autoIncrement: true, required: true }
-    title: { phpName: Title, type: VARCHAR, size: '255', required: true }
-    summary: { phpName: Summary, type: VARCHAR, size: '500', required: false }
-    body: { phpName: Body, type: LONGVARCHAR, required: false }
-    pageview: { phpName: Pageview, type: INTEGER, size: '11', required: false }
-    is_enable: { phpName: IsEnable, type: TINYINT, size: '4', required: false, defaultValue: '1' }
-    created_at: { phpName: CreatedAt, type: INTEGER, size: '11', required: false }
-    updated_at: { phpName: UpdatedAt, type: INTEGER, size: '11', required: false }
   box_type:
     _attributes: { phpName: BoxType }
     id: { phpName: Id, type: INTEGER, size: '11', primaryKey: true, autoIncrement: true, required: true }
@@ -135,16 +125,24 @@ propel:
     _attributes: { phpName: News }
     id: { phpName: Id, type: INTEGER, size: '11', primaryKey: true, autoIncrement: true, required: true }
     created_by_admin_user_id: { phpName: CreatedByAdminUserId, type: INTEGER, size: '11', required: false, foreignTable: admin_user, foreignReference: id, onDelete: 'SET NULL', onUpdate: CASCADE }
+    news_category_id: { phpName: NewsCategoryId, type: INTEGER, size: '11', required: false }
     title: { phpName: Title, type: VARCHAR, size: '255', required: true }
+    release_date: { phpName: ReleaseDate, type: DATE, required: false }
     image: { phpName: Image, type: VARCHAR, size: '255', required: false }
     summary: { phpName: Summary, type: LONGVARCHAR, required: false }
     body: { phpName: Body, type: LONGVARCHAR, required: false }
+    page_view: { phpName: PageView, type: INTEGER, size: '11', required: false }
     is_enable: { phpName: IsEnable, type: INTEGER, size: '11', required: false, defaultValue: '1' }
-    is_show_homepage: { phpName: IsShowHomepage, type: TINYINT, size: '4', required: false }
     position: { phpName: Position, type: INTEGER, size: '11', required: false }
+    seo_keywords: { phpName: SeoKeywords, type: LONGVARCHAR, required: false }
+    seo_description: { phpName: SeoDescription, type: LONGVARCHAR, required: false }
     created_at: { phpName: CreatedAt, type: INTEGER, size: '11', required: false }
     updated_at: { phpName: UpdatedAt, type: INTEGER, size: '11', required: false }
     _indexes: { created_by_admin_user_id: [created_by_admin_user_id] }
+  news_category:
+    _attributes: { phpName: NewsCategory }
+    id: { phpName: Id, type: INTEGER, size: '11', primaryKey: true, autoIncrement: true, required: true }
+    value: { phpName: Value, type: VARCHAR, size: '255', required: false }
   province:
     _attributes: { phpName: Province }
     id: { phpName: Id, type: INTEGER, size: '11', primaryKey: true, autoIncrement: true, required: true }

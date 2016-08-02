@@ -12,10 +12,11 @@ class NewsForm extends BaseNewsForm {
     public function configure() {
         $this->widgetSchema['is_enable'] = new myOwnWidgetFormInputCheckbox(array('value_attribute_value' => 1));
         $this->validatorSchema['is_enable'] = new sfValidatorPass();
+        $this->widgetSchema['release_date'] = new sfWidgetFormInputText(array(), array('readonly' => 'readonly'));
+        $this->validatorSchema['release_date'] = new sfValidatorString(array('required' => true));
 
         $this->widgetSchema['summary'] = new sfWidgetFormTextarea();
-        $this->validatorSchema['is_show_homepage'] = new sfValidatorPass();
-        $this->widgetSchema['is_show_homepage'] = new myOwnWidgetFormInputCheckbox(array('value_attribute_value' => 1));
+         $this->validatorSchema['news_category_id'] = new sfValidatorString(array('required' => true));
 
         $this->widgetSchema['image'] = new sfWidgetFormInputFileEditable(array(
             'label' => 'Image',

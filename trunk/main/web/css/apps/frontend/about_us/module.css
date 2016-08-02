@@ -1,0 +1,113 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 2016-7-28, 16:10:50
+    Author     : wm
+*/
+.information{
+    overflow: hidden;
+    clear: both;
+    border: 1px solid #EBEBEB;
+    width: 1100px;
+    margin: 0 auto;
+    background: #FEFEFE;
+    margin-bottom: 50px;
+    margin-top: 40px;
+    padding: 20px 15px; 
+}
+.left{
+    width: 165px;
+    float: left;
+    height: 155px;
+    border: 1px solid #EBEBEB;
+    padding: 10px 5px;
+}
+.left .list{
+    width: 140px;
+    height: 14px;
+    padding: 8px 10px;
+    border: 1px solid #EBEBEB;
+    background:#F2F2F2;
+    margin-bottom: 5px;
+    line-height: 1;
+}
+.triangle{
+    width: 0;
+    height: 0 !important;
+    border-top: 5px solid transparent;
+    border-left: 5px solid #035AB7;
+    border-bottom: 5px solid transparent;
+    content: "";
+    float: left;
+    margin-top: 3px;
+}
+.left .list a{
+    color: #010101;
+}
+.right{
+    width: 850px;
+    padding: 0 20px;
+    height: auto;
+    overflow: hidden;
+    border: 1px solid #EBEBEB;
+    padding-bottom: 20px;
+    margin-bottom: 10px;
+}
+.right .top{
+    width: 866px;
+    padding: 9px 12px;
+    height: 17px;
+    color: #010101;
+    border-bottom: 1px solid #EBEBEB;
+    background:#F2F2F2;
+    margin-left: -20px;
+    line-height: 1;
+}
+.map{
+    width: 845px;
+    height: 430px;
+    margin-top:20px;
+}
+.bottom_information{
+    width: 845px;
+    height: auto;
+    overflow: hidden;
+    margin-top: 50px;
+    font:18px "微软雅黑";
+    
+}
+.bottom_information .left{
+    float: left;
+    width: 375px;
+    margin-left: 30px;
+    line-height: 2;
+    border:0px;
+}
+.bottom_information .add{
+    background: url('/images/apps/frontend/about_us/add.png') no-repeat 5px 5px;
+    text-indent: 1cm;
+    margin-top: -10px;
+}
+.bottom_information .telephone{
+    background: url('/images/apps/frontend/about_us/telephone.png') no-repeat 5px 5px;
+    text-indent: 1cm;
+}
+.bottom_information .email{
+    background: url('/images/apps/frontend/about_us/email.png') no-repeat 5px 5px;
+    text-indent: 1cm;
+}
+.bottom_information .web{
+    background: url('/images/apps/frontend/about_us/web.png') no-repeat 5px 5px;
+    text-indent: 1cm;
+}
+.bottom_information .right{
+    float: right;
+    width: 330px;
+    height: 165px;
+    border: 0px;
+    background: url('/images/apps/frontend/about_us/wechat.png') no-repeat ;
+}
+

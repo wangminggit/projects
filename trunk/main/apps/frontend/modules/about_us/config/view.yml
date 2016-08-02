@@ -1,0 +1,4 @@
+all:
+  stylesheets: [/css/apps/frontend/about_us/module.css]
+  javascripts: []
+  

@@ -8,25 +8,33 @@
  *
  * @method     NewsQuery orderById($order = Criteria::ASC) Order by the id column
  * @method     NewsQuery orderByCreatedByAdminUserId($order = Criteria::ASC) Order by the created_by_admin_user_id column
+ * @method     NewsQuery orderByNewsCategoryId($order = Criteria::ASC) Order by the news_category_id column
  * @method     NewsQuery orderByTitle($order = Criteria::ASC) Order by the title column
+ * @method     NewsQuery orderByReleaseDate($order = Criteria::ASC) Order by the release_date column
  * @method     NewsQuery orderByImage($order = Criteria::ASC) Order by the image column
  * @method     NewsQuery orderBySummary($order = Criteria::ASC) Order by the summary column
  * @method     NewsQuery orderByBody($order = Criteria::ASC) Order by the body column
+ * @method     NewsQuery orderByPageView($order = Criteria::ASC) Order by the page_view column
  * @method     NewsQuery orderByIsEnable($order = Criteria::ASC) Order by the is_enable column
- * @method     NewsQuery orderByIsShowHomepage($order = Criteria::ASC) Order by the is_show_homepage column
  * @method     NewsQuery orderByPosition($order = Criteria::ASC) Order by the position column
+ * @method     NewsQuery orderBySeoKeywords($order = Criteria::ASC) Order by the seo_keywords column
+ * @method     NewsQuery orderBySeoDescription($order = Criteria::ASC) Order by the seo_description column
  * @method     NewsQuery orderByCreatedAt($order = Criteria::ASC) Order by the created_at column
  * @method     NewsQuery orderByUpdatedAt($order = Criteria::ASC) Order by the updated_at column
  *
  * @method     NewsQuery groupById() Group by the id column
  * @method     NewsQuery groupByCreatedByAdminUserId() Group by the created_by_admin_user_id column
+ * @method     NewsQuery groupByNewsCategoryId() Group by the news_category_id column
  * @method     NewsQuery groupByTitle() Group by the title column
+ * @method     NewsQuery groupByReleaseDate() Group by the release_date column
  * @method     NewsQuery groupByImage() Group by the image column
  * @method     NewsQuery groupBySummary() Group by the summary column
  * @method     NewsQuery groupByBody() Group by the body column
+ * @method     NewsQuery groupByPageView() Group by the page_view column
  * @method     NewsQuery groupByIsEnable() Group by the is_enable column
- * @method     NewsQuery groupByIsShowHomepage() Group by the is_show_homepage column
  * @method     NewsQuery groupByPosition() Group by the position column
+ * @method     NewsQuery groupBySeoKeywords() Group by the seo_keywords column
+ * @method     NewsQuery groupBySeoDescription() Group by the seo_description column
  * @method     NewsQuery groupByCreatedAt() Group by the created_at column
  * @method     NewsQuery groupByUpdatedAt() Group by the updated_at column
  *
@@ -43,25 +51,33 @@
  *
  * @method     News findOneById(int $id) Return the first News filtered by the id column
  * @method     News findOneByCreatedByAdminUserId(int $created_by_admin_user_id) Return the first News filtered by the created_by_admin_user_id column
+ * @method     News findOneByNewsCategoryId(int $news_category_id) Return the first News filtered by the news_category_id column
  * @method     News findOneByTitle(string $title) Return the first News filtered by the title column
+ * @method     News findOneByReleaseDate(string $release_date) Return the first News filtered by the release_date column
  * @method     News findOneByImage(string $image) Return the first News filtered by the image column
  * @method     News findOneBySummary(string $summary) Return the first News filtered by the summary column
  * @method     News findOneByBody(string $body) Return the first News filtered by the body column
+ * @method     News findOneByPageView(int $page_view) Return the first News filtered by the page_view column
  * @method     News findOneByIsEnable(int $is_enable) Return the first News filtered by the is_enable column
- * @method     News findOneByIsShowHomepage(int $is_show_homepage) Return the first News filtered by the is_show_homepage column
  * @method     News findOneByPosition(int $position) Return the first News filtered by the position column
+ * @method     News findOneBySeoKeywords(string $seo_keywords) Return the first News filtered by the seo_keywords column
+ * @method     News findOneBySeoDescription(string $seo_description) Return the first News filtered by the seo_description column
  * @method     News findOneByCreatedAt(int $created_at) Return the first News filtered by the created_at column
  * @method     News findOneByUpdatedAt(int $updated_at) Return the first News filtered by the updated_at column
  *
  * @method     array findById(int $id) Return News objects filtered by the id column
  * @method     array findByCreatedByAdminUserId(int $created_by_admin_user_id) Return News objects filtered by the created_by_admin_user_id column
+ * @method     array findByNewsCategoryId(int $news_category_id) Return News objects filtered by the news_category_id column
  * @method     array findByTitle(string $title) Return News objects filtered by the title column
+ * @method     array findByReleaseDate(string $release_date) Return News objects filtered by the release_date column
  * @method     array findByImage(string $image) Return News objects filtered by the image column
  * @method     array findBySummary(string $summary) Return News objects filtered by the summary column
  * @method     array findByBody(string $body) Return News objects filtered by the body column
+ * @method     array findByPageView(int $page_view) Return News objects filtered by the page_view column
  * @method     array findByIsEnable(int $is_enable) Return News objects filtered by the is_enable column
- * @method     array findByIsShowHomepage(int $is_show_homepage) Return News objects filtered by the is_show_homepage column
  * @method     array findByPosition(int $position) Return News objects filtered by the position column
+ * @method     array findBySeoKeywords(string $seo_keywords) Return News objects filtered by the seo_keywords column
+ * @method     array findBySeoDescription(string $seo_description) Return News objects filtered by the seo_description column
  * @method     array findByCreatedAt(int $created_at) Return News objects filtered by the created_at column
  * @method     array findByUpdatedAt(int $updated_at) Return News objects filtered by the updated_at column
  *
@@ -222,6 +238,37 @@ abstract class BaseNewsQuery extends ModelCriteria
 	}
 
 	/**
+	 * Filter the query on the news_category_id column
+	 * 
+	 * @param     int|array $newsCategoryId The value to use as filter.
+	 *            Accepts an associative array('min' => $minValue, 'max' => $maxValue)
+	 * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+	 *
+	 * @return    NewsQuery The current query, for fluid interface
+	 */
+	public function filterByNewsCategoryId($newsCategoryId = null, $comparison = null)
+	{
+		if (is_array($newsCategoryId)) {
+			$useMinMax = false;
+			if (isset($newsCategoryId['min'])) {
+				$this->addUsingAlias(NewsPeer::NEWS_CATEGORY_ID, $newsCategoryId['min'], Criteria::GREATER_EQUAL);
+				$useMinMax = true;
+			}
+			if (isset($newsCategoryId['max'])) {
+				$this->addUsingAlias(NewsPeer::NEWS_CATEGORY_ID, $newsCategoryId['max'], Criteria::LESS_EQUAL);
+				$useMinMax = true;
+			}
+			if ($useMinMax) {
+				return $this;
+			}
+			if (null === $comparison) {
+				$comparison = Criteria::IN;
+			}
+		}
+		return $this->addUsingAlias(NewsPeer::NEWS_CATEGORY_ID, $newsCategoryId, $comparison);
+	}
+
+	/**
 	 * Filter the query on the title column
 	 * 
 	 * @param     string $title The value to use as filter.
@@ -241,6 +288,37 @@ abstract class BaseNewsQuery extends ModelCriteria
 			}
 		}
 		return $this->addUsingAlias(NewsPeer::TITLE, $title, $comparison);
+	}
+
+	/**
+	 * Filter the query on the release_date column
+	 * 
+	 * @param     string|array $releaseDate The value to use as filter.
+	 *            Accepts an associative array('min' => $minValue, 'max' => $maxValue)
+	 * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+	 *
+	 * @return    NewsQuery The current query, for fluid interface
+	 */
+	public function filterByReleaseDate($releaseDate = null, $comparison = null)
+	{
+		if (is_array($releaseDate)) {
+			$useMinMax = false;
+			if (isset($releaseDate['min'])) {
+				$this->addUsingAlias(NewsPeer::RELEASE_DATE, $releaseDate['min'], Criteria::GREATER_EQUAL);
+				$useMinMax = true;
+			}
+			if (isset($releaseDate['max'])) {
+				$this->addUsingAlias(NewsPeer::RELEASE_DATE, $releaseDate['max'], Criteria::LESS_EQUAL);
+				$useMinMax = true;
+			}
+			if ($useMinMax) {
+				return $this;
+			}
+			if (null === $comparison) {
+				$comparison = Criteria::IN;
+			}
+		}
+		return $this->addUsingAlias(NewsPeer::RELEASE_DATE, $releaseDate, $comparison);
 	}
 
 	/**
@@ -310,6 +388,37 @@ abstract class BaseNewsQuery extends ModelCriteria
 	}
 
 	/**
+	 * Filter the query on the page_view column
+	 * 
+	 * @param     int|array $pageView The value to use as filter.
+	 *            Accepts an associative array('min' => $minValue, 'max' => $maxValue)
+	 * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+	 *
+	 * @return    NewsQuery The current query, for fluid interface
+	 */
+	public function filterByPageView($pageView = null, $comparison = null)
+	{
+		if (is_array($pageView)) {
+			$useMinMax = false;
+			if (isset($pageView['min'])) {
+				$this->addUsingAlias(NewsPeer::PAGE_VIEW, $pageView['min'], Criteria::GREATER_EQUAL);
+				$useMinMax = true;
+			}
+			if (isset($pageView['max'])) {
+				$this->addUsingAlias(NewsPeer::PAGE_VIEW, $pageView['max'], Criteria::LESS_EQUAL);
+				$useMinMax = true;
+			}
+			if ($useMinMax) {
+				return $this;
+			}
+			if (null === $comparison) {
+				$comparison = Criteria::IN;
+			}
+		}
+		return $this->addUsingAlias(NewsPeer::PAGE_VIEW, $pageView, $comparison);
+	}
+
+	/**
 	 * Filter the query on the is_enable column
 	 * 
 	 * @param     int|array $isEnable The value to use as filter.
@@ -341,37 +450,6 @@ abstract class BaseNewsQuery extends ModelCriteria
 	}
 
 	/**
-	 * Filter the query on the is_show_homepage column
-	 * 
-	 * @param     int|array $isShowHomepage The value to use as filter.
-	 *            Accepts an associative array('min' => $minValue, 'max' => $maxValue)
-	 * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
-	 *
-	 * @return    NewsQuery The current query, for fluid interface
-	 */
-	public function filterByIsShowHomepage($isShowHomepage = null, $comparison = null)
-	{
-		if (is_array($isShowHomepage)) {
-			$useMinMax = false;
-			if (isset($isShowHomepage['min'])) {
-				$this->addUsingAlias(NewsPeer::IS_SHOW_HOMEPAGE, $isShowHomepage['min'], Criteria::GREATER_EQUAL);
-				$useMinMax = true;
-			}
-			if (isset($isShowHomepage['max'])) {
-				$this->addUsingAlias(NewsPeer::IS_SHOW_HOMEPAGE, $isShowHomepage['max'], Criteria::LESS_EQUAL);
-				$useMinMax = true;
-			}
-			if ($useMinMax) {
-				return $this;
-			}
-			if (null === $comparison) {
-				$comparison = Criteria::IN;
-			}
-		}
-		return $this->addUsingAlias(NewsPeer::IS_SHOW_HOMEPAGE, $isShowHomepage, $comparison);
-	}
-
-	/**
 	 * Filter the query on the position column
 	 * 
 	 * @param     int|array $position The value to use as filter.
@@ -400,6 +478,50 @@ abstract class BaseNewsQuery extends ModelCriteria
 			}
 		}
 		return $this->addUsingAlias(NewsPeer::POSITION, $position, $comparison);
+	}
+
+	/**
+	 * Filter the query on the seo_keywords column
+	 * 
+	 * @param     string $seoKeywords The value to use as filter.
+	 *            Accepts wildcards (* and % trigger a LIKE)
+	 * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+	 *
+	 * @return    NewsQuery The current query, for fluid interface
+	 */
+	public function filterBySeoKeywords($seoKeywords = null, $comparison = null)
+	{
+		if (null === $comparison) {
+			if (is_array($seoKeywords)) {
+				$comparison = Criteria::IN;
+			} elseif (preg_match('/[\%\*]/', $seoKeywords)) {
+				$seoKeywords = str_replace('*', '%', $seoKeywords);
+				$comparison = Criteria::LIKE;
+			}
+		}
+		return $this->addUsingAlias(NewsPeer::SEO_KEYWORDS, $seoKeywords, $comparison);
+	}
+
+	/**
+	 * Filter the query on the seo_description column
+	 * 
+	 * @param     string $seoDescription The value to use as filter.
+	 *            Accepts wildcards (* and % trigger a LIKE)
+	 * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+	 *
+	 * @return    NewsQuery The current query, for fluid interface
+	 */
+	public function filterBySeoDescription($seoDescription = null, $comparison = null)
+	{
+		if (null === $comparison) {
+			if (is_array($seoDescription)) {
+				$comparison = Criteria::IN;
+			} elseif (preg_match('/[\%\*]/', $seoDescription)) {
+				$seoDescription = str_replace('*', '%', $seoDescription);
+				$comparison = Criteria::LIKE;
+			}
+		}
+		return $this->addUsingAlias(NewsPeer::SEO_DESCRIPTION, $seoDescription, $comparison);
 	}
 
 	/**

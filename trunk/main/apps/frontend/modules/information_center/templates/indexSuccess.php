@@ -21,5 +21,6 @@
             <li><a class="postion_left" href=""><?php echo "国内猪肉价格和羊牛肉价格持平"?></a><div class="postion_right"><?php echo "2016-07-27"?></div></li>
             <li><a class="postion_left" href=""><?php echo "国内猪肉价格和羊牛肉价格持平"?></a><div class="postion_right"><?php echo "2016-07-27"?></div></li>
         </ul>
+        
     </div>
 </div>

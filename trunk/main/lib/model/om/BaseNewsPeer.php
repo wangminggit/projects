@@ -26,7 +26,7 @@ abstract class BaseNewsPeer {
 	const TM_CLASS = 'NewsTableMap';
 	
 	/** The total number of columns. */
-	const NUM_COLUMNS = 11;
+	const NUM_COLUMNS = 15;
 
 	/** The number of lazy-loaded columns. */
 	const NUM_LAZY_LOAD_COLUMNS = 0;
@@ -37,8 +37,14 @@ abstract class BaseNewsPeer {
 	/** the column name for the CREATED_BY_ADMIN_USER_ID field */
 	const CREATED_BY_ADMIN_USER_ID = 'news.CREATED_BY_ADMIN_USER_ID';
 
+	/** the column name for the NEWS_CATEGORY_ID field */
+	const NEWS_CATEGORY_ID = 'news.NEWS_CATEGORY_ID';
+
 	/** the column name for the TITLE field */
 	const TITLE = 'news.TITLE';
+
+	/** the column name for the RELEASE_DATE field */
+	const RELEASE_DATE = 'news.RELEASE_DATE';
 
 	/** the column name for the IMAGE field */
 	const IMAGE = 'news.IMAGE';
@@ -49,14 +55,20 @@ abstract class BaseNewsPeer {
 	/** the column name for the BODY field */
 	const BODY = 'news.BODY';
 
+	/** the column name for the PAGE_VIEW field */
+	const PAGE_VIEW = 'news.PAGE_VIEW';
+
 	/** the column name for the IS_ENABLE field */
 	const IS_ENABLE = 'news.IS_ENABLE';
 
-	/** the column name for the IS_SHOW_HOMEPAGE field */
-	const IS_SHOW_HOMEPAGE = 'news.IS_SHOW_HOMEPAGE';
-
 	/** the column name for the POSITION field */
 	const POSITION = 'news.POSITION';
+
+	/** the column name for the SEO_KEYWORDS field */
+	const SEO_KEYWORDS = 'news.SEO_KEYWORDS';
+
+	/** the column name for the SEO_DESCRIPTION field */
+	const SEO_DESCRIPTION = 'news.SEO_DESCRIPTION';
 
 	/** the column name for the CREATED_AT field */
 	const CREATED_AT = 'news.CREATED_AT';
@@ -87,12 +99,12 @@ abstract class BaseNewsPeer {
 	 * e.g. self::$fieldNames[self::TYPE_PHPNAME][0] = 'Id'
 	 */
 	private static $fieldNames = array (
-		BasePeer::TYPE_PHPNAME => array ('Id', 'CreatedByAdminUserId', 'Title', 'Image', 'Summary', 'Body', 'IsEnable', 'IsShowHomepage', 'Position', 'CreatedAt', 'UpdatedAt', ),
-		BasePeer::TYPE_STUDLYPHPNAME => array ('id', 'createdByAdminUserId', 'title', 'image', 'summary', 'body', 'isEnable', 'isShowHomepage', 'position', 'createdAt', 'updatedAt', ),
-		BasePeer::TYPE_COLNAME => array (self::ID, self::CREATED_BY_ADMIN_USER_ID, self::TITLE, self::IMAGE, self::SUMMARY, self::BODY, self::IS_ENABLE, self::IS_SHOW_HOMEPAGE, self::POSITION, self::CREATED_AT, self::UPDATED_AT, ),
-		BasePeer::TYPE_RAW_COLNAME => array ('ID', 'CREATED_BY_ADMIN_USER_ID', 'TITLE', 'IMAGE', 'SUMMARY', 'BODY', 'IS_ENABLE', 'IS_SHOW_HOMEPAGE', 'POSITION', 'CREATED_AT', 'UPDATED_AT', ),
-		BasePeer::TYPE_FIELDNAME => array ('id', 'created_by_admin_user_id', 'title', 'image', 'summary', 'body', 'is_enable', 'is_show_homepage', 'position', 'created_at', 'updated_at', ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, )
+		BasePeer::TYPE_PHPNAME => array ('Id', 'CreatedByAdminUserId', 'NewsCategoryId', 'Title', 'ReleaseDate', 'Image', 'Summary', 'Body', 'PageView', 'IsEnable', 'Position', 'SeoKeywords', 'SeoDescription', 'CreatedAt', 'UpdatedAt', ),
+		BasePeer::TYPE_STUDLYPHPNAME => array ('id', 'createdByAdminUserId', 'newsCategoryId', 'title', 'releaseDate', 'image', 'summary', 'body', 'pageView', 'isEnable', 'position', 'seoKeywords', 'seoDescription', 'createdAt', 'updatedAt', ),
+		BasePeer::TYPE_COLNAME => array (self::ID, self::CREATED_BY_ADMIN_USER_ID, self::NEWS_CATEGORY_ID, self::TITLE, self::RELEASE_DATE, self::IMAGE, self::SUMMARY, self::BODY, self::PAGE_VIEW, self::IS_ENABLE, self::POSITION, self::SEO_KEYWORDS, self::SEO_DESCRIPTION, self::CREATED_AT, self::UPDATED_AT, ),
+		BasePeer::TYPE_RAW_COLNAME => array ('ID', 'CREATED_BY_ADMIN_USER_ID', 'NEWS_CATEGORY_ID', 'TITLE', 'RELEASE_DATE', 'IMAGE', 'SUMMARY', 'BODY', 'PAGE_VIEW', 'IS_ENABLE', 'POSITION', 'SEO_KEYWORDS', 'SEO_DESCRIPTION', 'CREATED_AT', 'UPDATED_AT', ),
+		BasePeer::TYPE_FIELDNAME => array ('id', 'created_by_admin_user_id', 'news_category_id', 'title', 'release_date', 'image', 'summary', 'body', 'page_view', 'is_enable', 'position', 'seo_keywords', 'seo_description', 'created_at', 'updated_at', ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, )
 	);
 
 	/**
@@ -102,12 +114,12 @@ abstract class BaseNewsPeer {
 	 * e.g. self::$fieldNames[BasePeer::TYPE_PHPNAME]['Id'] = 0
 	 */
 	private static $fieldKeys = array (
-		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'CreatedByAdminUserId' => 1, 'Title' => 2, 'Image' => 3, 'Summary' => 4, 'Body' => 5, 'IsEnable' => 6, 'IsShowHomepage' => 7, 'Position' => 8, 'CreatedAt' => 9, 'UpdatedAt' => 10, ),
-		BasePeer::TYPE_STUDLYPHPNAME => array ('id' => 0, 'createdByAdminUserId' => 1, 'title' => 2, 'image' => 3, 'summary' => 4, 'body' => 5, 'isEnable' => 6, 'isShowHomepage' => 7, 'position' => 8, 'createdAt' => 9, 'updatedAt' => 10, ),
-		BasePeer::TYPE_COLNAME => array (self::ID => 0, self::CREATED_BY_ADMIN_USER_ID => 1, self::TITLE => 2, self::IMAGE => 3, self::SUMMARY => 4, self::BODY => 5, self::IS_ENABLE => 6, self::IS_SHOW_HOMEPAGE => 7, self::POSITION => 8, self::CREATED_AT => 9, self::UPDATED_AT => 10, ),
-		BasePeer::TYPE_RAW_COLNAME => array ('ID' => 0, 'CREATED_BY_ADMIN_USER_ID' => 1, 'TITLE' => 2, 'IMAGE' => 3, 'SUMMARY' => 4, 'BODY' => 5, 'IS_ENABLE' => 6, 'IS_SHOW_HOMEPAGE' => 7, 'POSITION' => 8, 'CREATED_AT' => 9, 'UPDATED_AT' => 10, ),
-		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'created_by_admin_user_id' => 1, 'title' => 2, 'image' => 3, 'summary' => 4, 'body' => 5, 'is_enable' => 6, 'is_show_homepage' => 7, 'position' => 8, 'created_at' => 9, 'updated_at' => 10, ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, )
+		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'CreatedByAdminUserId' => 1, 'NewsCategoryId' => 2, 'Title' => 3, 'ReleaseDate' => 4, 'Image' => 5, 'Summary' => 6, 'Body' => 7, 'PageView' => 8, 'IsEnable' => 9, 'Position' => 10, 'SeoKeywords' => 11, 'SeoDescription' => 12, 'CreatedAt' => 13, 'UpdatedAt' => 14, ),
+		BasePeer::TYPE_STUDLYPHPNAME => array ('id' => 0, 'createdByAdminUserId' => 1, 'newsCategoryId' => 2, 'title' => 3, 'releaseDate' => 4, 'image' => 5, 'summary' => 6, 'body' => 7, 'pageView' => 8, 'isEnable' => 9, 'position' => 10, 'seoKeywords' => 11, 'seoDescription' => 12, 'createdAt' => 13, 'updatedAt' => 14, ),
+		BasePeer::TYPE_COLNAME => array (self::ID => 0, self::CREATED_BY_ADMIN_USER_ID => 1, self::NEWS_CATEGORY_ID => 2, self::TITLE => 3, self::RELEASE_DATE => 4, self::IMAGE => 5, self::SUMMARY => 6, self::BODY => 7, self::PAGE_VIEW => 8, self::IS_ENABLE => 9, self::POSITION => 10, self::SEO_KEYWORDS => 11, self::SEO_DESCRIPTION => 12, self::CREATED_AT => 13, self::UPDATED_AT => 14, ),
+		BasePeer::TYPE_RAW_COLNAME => array ('ID' => 0, 'CREATED_BY_ADMIN_USER_ID' => 1, 'NEWS_CATEGORY_ID' => 2, 'TITLE' => 3, 'RELEASE_DATE' => 4, 'IMAGE' => 5, 'SUMMARY' => 6, 'BODY' => 7, 'PAGE_VIEW' => 8, 'IS_ENABLE' => 9, 'POSITION' => 10, 'SEO_KEYWORDS' => 11, 'SEO_DESCRIPTION' => 12, 'CREATED_AT' => 13, 'UPDATED_AT' => 14, ),
+		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'created_by_admin_user_id' => 1, 'news_category_id' => 2, 'title' => 3, 'release_date' => 4, 'image' => 5, 'summary' => 6, 'body' => 7, 'page_view' => 8, 'is_enable' => 9, 'position' => 10, 'seo_keywords' => 11, 'seo_description' => 12, 'created_at' => 13, 'updated_at' => 14, ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, )
 	);
 
 	/**
@@ -181,25 +193,33 @@ abstract class BaseNewsPeer {
 		if (null === $alias) {
 			$criteria->addSelectColumn(NewsPeer::ID);
 			$criteria->addSelectColumn(NewsPeer::CREATED_BY_ADMIN_USER_ID);
+			$criteria->addSelectColumn(NewsPeer::NEWS_CATEGORY_ID);
 			$criteria->addSelectColumn(NewsPeer::TITLE);
+			$criteria->addSelectColumn(NewsPeer::RELEASE_DATE);
 			$criteria->addSelectColumn(NewsPeer::IMAGE);
 			$criteria->addSelectColumn(NewsPeer::SUMMARY);
 			$criteria->addSelectColumn(NewsPeer::BODY);
+			$criteria->addSelectColumn(NewsPeer::PAGE_VIEW);
 			$criteria->addSelectColumn(NewsPeer::IS_ENABLE);
-			$criteria->addSelectColumn(NewsPeer::IS_SHOW_HOMEPAGE);
 			$criteria->addSelectColumn(NewsPeer::POSITION);
+			$criteria->addSelectColumn(NewsPeer::SEO_KEYWORDS);
+			$criteria->addSelectColumn(NewsPeer::SEO_DESCRIPTION);
 			$criteria->addSelectColumn(NewsPeer::CREATED_AT);
 			$criteria->addSelectColumn(NewsPeer::UPDATED_AT);
 		} else {
 			$criteria->addSelectColumn($alias . '.ID');
 			$criteria->addSelectColumn($alias . '.CREATED_BY_ADMIN_USER_ID');
+			$criteria->addSelectColumn($alias . '.NEWS_CATEGORY_ID');
 			$criteria->addSelectColumn($alias . '.TITLE');
+			$criteria->addSelectColumn($alias . '.RELEASE_DATE');
 			$criteria->addSelectColumn($alias . '.IMAGE');
 			$criteria->addSelectColumn($alias . '.SUMMARY');
 			$criteria->addSelectColumn($alias . '.BODY');
+			$criteria->addSelectColumn($alias . '.PAGE_VIEW');
 			$criteria->addSelectColumn($alias . '.IS_ENABLE');
-			$criteria->addSelectColumn($alias . '.IS_SHOW_HOMEPAGE');
 			$criteria->addSelectColumn($alias . '.POSITION');
+			$criteria->addSelectColumn($alias . '.SEO_KEYWORDS');
+			$criteria->addSelectColumn($alias . '.SEO_DESCRIPTION');
 			$criteria->addSelectColumn($alias . '.CREATED_AT');
 			$criteria->addSelectColumn($alias . '.UPDATED_AT');
 		}

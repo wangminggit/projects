@@ -24,6 +24,9 @@
     color: #fff;
     margin: 0 auto;
 }
+.header_bg{
+    background: #00438C;
+}
 #main{
     overflow: hidden;
     clear: both;

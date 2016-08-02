@@ -93,7 +93,9 @@ input[type="submit"],input[type="button"],#footer .save{font-size:12px;}
     width: 15em;
 }
 
-
+#sf_admin_container textarea{
+    width: 85%;
+}
 .ui-datepicker-trigger{
     background: url('/images/3rd/famicons/calendar.png');
     width:16px;
