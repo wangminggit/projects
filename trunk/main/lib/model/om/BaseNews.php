@@ -114,11 +114,6 @@ abstract class BaseNews extends BaseObject  implements Persistent
 	 * @var        int
 	 */
 	protected $updated_at;
- 
- 	/**
-	 * @var        NewsCategory
-	 */
-	protected $aNewsCategory;
 
 	/**
 	 * @var        AdminUser
@@ -1568,54 +1563,6 @@ abstract class BaseNews extends BaseObject  implements Persistent
 			}
 		}
 		return parent::__call($name, $params);
-	}
- /**
-	 * Declares an association between this object and a NewsCategory object.
-	 *
-	 * @param      NewsCategory $v
-	 * @return     News The current object (for fluent API support)
-	 * @throws     PropelException
-	 */
-	public function setNewsCategory(NewsCategory $v = null)
-	{
-		if ($v === null) {
-			$this->setNewsCategoryId(NULL);
-		} else {
-			$this->setNewsCategoryId($v->getId());
-		}
-
-		$this->aNewsCategory = $v;
-
-		// Add binding for other direction of this n:n relationship.
-		// If this object has already been added to the NewsCategory object, it will not be re-added.
-		if ($v !== null) {
-			$v->addNews($this);
-		}
-
-		return $this;
-	}
-
-
-	/**
-	 * Get the associated NewsCategory object
-	 *
-	 * @param      PropelPDO Optional Connection object.
-	 * @return     NewsCategory The associated NewsCategory object.
-	 * @throws     PropelException
-	 */
-	public function getNewsCategory(PropelPDO $con = null)
-	{
-		if ($this->aNewsCategory === null && ($this->news_category_id !== null)) {
-			$this->aNewsCategory = NewsCategoryQuery::create()->findPk($this->news_category_id, $con);
-			/* The following can be used additionally to
-				 guarantee the related object contains a reference
-				 to this object.  This level of coupling may, however, be
-				 undesirable since it could result in an only partially populated collection
-				 in the referenced object.
-				 $this->aNewsCategory->addNewss($this);
-			 */
-		}
-		return $this->aNewsCategory;
 	}
 
 } // BaseNews

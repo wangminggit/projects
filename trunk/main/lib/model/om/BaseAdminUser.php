@@ -107,6 +107,11 @@ abstract class BaseAdminUser extends BaseObject  implements Persistent
 	protected $collNewss;
 
 	/**
+	 * @var        array Regulation[] Collection to store aggregation of Regulation objects.
+	 */
+	protected $collRegulations;
+
+	/**
 	 * Flag to prevent endless save loop, if this object is referenced
 	 * by another object which falls in this transaction.
 	 * @var        boolean
@@ -600,6 +605,8 @@ abstract class BaseAdminUser extends BaseObject  implements Persistent
 
 			$this->collNewss = null;
 
+			$this->collRegulations = null;
+
 		} // if (deep)
 	}
 
@@ -805,6 +812,14 @@ abstract class BaseAdminUser extends BaseObject  implements Persistent
 				}
 			}
 
+			if ($this->collRegulations !== null) {
+				foreach ($this->collRegulations as $referrerFK) {
+					if (!$referrerFK->isDeleted()) {
+						$affectedRows += $referrerFK->save($con);
+					}
+				}
+			}
+
 			$this->alreadyInSave = false;
 
 		}
@@ -898,6 +913,14 @@ abstract class BaseAdminUser extends BaseObject  implements Persistent
 
 				if ($this->collNewss !== null) {
 					foreach ($this->collNewss as $referrerFK) {
+						if (!$referrerFK->validate($columns)) {
+							$failureMap = array_merge($failureMap, $referrerFK->getValidationFailures());
+						}
+					}
+				}
+
+				if ($this->collRegulations !== null) {
+					foreach ($this->collRegulations as $referrerFK) {
 						if (!$referrerFK->validate($columns)) {
 							$failureMap = array_merge($failureMap, $referrerFK->getValidationFailures());
 						}
@@ -1217,6 +1240,12 @@ abstract class BaseAdminUser extends BaseObject  implements Persistent
 			foreach ($this->getNewss() as $relObj) {
 				if ($relObj !== $this) {  // ensure that we don't try to copy a reference to ourselves
 					$copyObj->addNews($relObj->copy($deepCopy));
+				}
+			}
+
+			foreach ($this->getRegulations() as $relObj) {
+				if ($relObj !== $this) {  // ensure that we don't try to copy a reference to ourselves
+					$copyObj->addRegulation($relObj->copy($deepCopy));
 				}
 			}
 
@@ -1583,6 +1612,140 @@ abstract class BaseAdminUser extends BaseObject  implements Persistent
 	}
 
 	/**
+	 * Clears out the collRegulations collection
+	 *
+	 * This does not modify the database; however, it will remove any associated objects, causing
+	 * them to be refetched by subsequent calls to accessor method.
+	 *
+	 * @return     void
+	 * @see        addRegulations()
+	 */
+	public function clearRegulations()
+	{
+		$this->collRegulations = null; // important to set this to NULL since that means it is uninitialized
+	}
+
+	/**
+	 * Initializes the collRegulations collection.
+	 *
+	 * By default this just sets the collRegulations collection to an empty array (like clearcollRegulations());
+	 * however, you may wish to override this method in your stub class to provide setting appropriate
+	 * to your application -- for example, setting the initial array to the values stored in database.
+	 *
+	 * @return     void
+	 */
+	public function initRegulations()
+	{
+		$this->collRegulations = new PropelObjectCollection();
+		$this->collRegulations->setModel('Regulation');
+	}
+
+	/**
+	 * Gets an array of Regulation objects which contain a foreign key that references this object.
+	 *
+	 * If the $criteria is not null, it is used to always fetch the results from the database.
+	 * Otherwise the results are fetched from the database the first time, then cached.
+	 * Next time the same method is called without $criteria, the cached collection is returned.
+	 * If this AdminUser is new, it will return
+	 * an empty collection or the current collection; the criteria is ignored on a new object.
+	 *
+	 * @param      Criteria $criteria optional Criteria object to narrow the query
+	 * @param      PropelPDO $con optional connection object
+	 * @return     PropelCollection|array Regulation[] List of Regulation objects
+	 * @throws     PropelException
+	 */
+	public function getRegulations($criteria = null, PropelPDO $con = null)
+	{
+		if(null === $this->collRegulations || null !== $criteria) {
+			if ($this->isNew() && null === $this->collRegulations) {
+				// return empty collection
+				$this->initRegulations();
+			} else {
+				$collRegulations = RegulationQuery::create(null, $criteria)
+					->filterByAdminUser($this)
+					->find($con);
+				if (null !== $criteria) {
+					return $collRegulations;
+				}
+				$this->collRegulations = $collRegulations;
+			}
+		}
+		return $this->collRegulations;
+	}
+
+	/**
+	 * Returns the number of related Regulation objects.
+	 *
+	 * @param      Criteria $criteria
+	 * @param      boolean $distinct
+	 * @param      PropelPDO $con
+	 * @return     int Count of related Regulation objects.
+	 * @throws     PropelException
+	 */
+	public function countRegulations(Criteria $criteria = null, $distinct = false, PropelPDO $con = null)
+	{
+		if(null === $this->collRegulations || null !== $criteria) {
+			if ($this->isNew() && null === $this->collRegulations) {
+				return 0;
+			} else {
+				$query = RegulationQuery::create(null, $criteria);
+				if($distinct) {
+					$query->distinct();
+				}
+				return $query
+					->filterByAdminUser($this)
+					->count($con);
+			}
+		} else {
+			return count($this->collRegulations);
+		}
+	}
+
+	/**
+	 * Method called to associate a Regulation object to this object
+	 * through the Regulation foreign key attribute.
+	 *
+	 * @param      Regulation $l Regulation
+	 * @return     void
+	 * @throws     PropelException
+	 */
+	public function addRegulation(Regulation $l)
+	{
+		if ($this->collRegulations === null) {
+			$this->initRegulations();
+		}
+		if (!$this->collRegulations->contains($l)) { // only add it if the **same** object is not already associated
+			$this->collRegulations[]= $l;
+			$l->setAdminUser($this);
+		}
+	}
+
+
+	/**
+	 * If this collection has already been initialized with
+	 * an identical criteria, it returns the collection.
+	 * Otherwise if this AdminUser is new, it will return
+	 * an empty collection; or if this AdminUser has previously
+	 * been saved, it will retrieve related Regulations from storage.
+	 *
+	 * This method is protected by default in order to keep the public
+	 * api reasonable.  You can provide public methods for those you
+	 * actually need in AdminUser.
+	 *
+	 * @param      Criteria $criteria optional Criteria object to narrow the query
+	 * @param      PropelPDO $con optional connection object
+	 * @param      string $join_behavior optional join type to use (defaults to Criteria::LEFT_JOIN)
+	 * @return     PropelCollection|array Regulation[] List of Regulation objects
+	 */
+	public function getRegulationsJoinRegulationCategory($criteria = null, $con = null, $join_behavior = Criteria::LEFT_JOIN)
+	{
+		$query = RegulationQuery::create(null, $criteria);
+		$query->joinWith('RegulationCategory', $join_behavior);
+
+		return $this->getRegulations($query, $con);
+	}
+
+	/**
 	 * Clears the current object and sets all attributes to their default values
 	 */
 	public function clear()
@@ -1629,10 +1792,16 @@ abstract class BaseAdminUser extends BaseObject  implements Persistent
 					$o->clearAllReferences($deep);
 				}
 			}
+			if ($this->collRegulations) {
+				foreach ((array) $this->collRegulations as $o) {
+					$o->clearAllReferences($deep);
+				}
+			}
 		} // if ($deep)
 
 		$this->collLogs = null;
 		$this->collNewss = null;
+		$this->collRegulations = null;
 		$this->aAdminUserGroup = null;
 	}
 

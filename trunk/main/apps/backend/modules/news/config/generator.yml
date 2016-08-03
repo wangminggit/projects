@@ -30,7 +30,7 @@ generator:
         display: [id,_news_category_id,_title,_is_enable,page_view,_release_date]
         sort: [id, desc]
       filter:
-        display: [news_category_id,title,release_date,is_enable]
+        display: [news_category_id,title,is_enable]
       form:
         display: [news_category_id,title,release_date,image,summary,body,page_view,is_enable]
       edit:

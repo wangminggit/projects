@@ -413,6 +413,9 @@ abstract class BaseAdminUserPeer {
 		// Invalidate objects in NewsPeer instance pool, 
 		// since one or more of them may be deleted by ON DELETE CASCADE/SETNULL rule.
 		NewsPeer::clearInstancePool();
+		// Invalidate objects in RegulationPeer instance pool, 
+		// since one or more of them may be deleted by ON DELETE CASCADE/SETNULL rule.
+		RegulationPeer::clearInstancePool();
 	}
 
 	/**
@@ -1012,6 +1015,14 @@ abstract class BaseAdminUserPeer {
 			$updateValues = new Criteria(AdminUserPeer::DATABASE_NAME);
 			$selectCriteria->add(NewsPeer::CREATED_BY_ADMIN_USER_ID, $obj->getId());
 			$updateValues->add(NewsPeer::CREATED_BY_ADMIN_USER_ID, null);
+
+			BasePeer::doUpdate($selectCriteria, $updateValues, $con); // use BasePeer because generated Peer doUpdate() methods only update using pkey
+
+			// set fkey col in related Regulation rows to NULL
+			$selectCriteria = new Criteria(AdminUserPeer::DATABASE_NAME);
+			$updateValues = new Criteria(AdminUserPeer::DATABASE_NAME);
+			$selectCriteria->add(RegulationPeer::CREATED_BY_ADMIN_USER_ID, $obj->getId());
+			$updateValues->add(RegulationPeer::CREATED_BY_ADMIN_USER_ID, null);
 
 			BasePeer::doUpdate($selectCriteria, $updateValues, $con); // use BasePeer because generated Peer doUpdate() methods only update using pkey
 

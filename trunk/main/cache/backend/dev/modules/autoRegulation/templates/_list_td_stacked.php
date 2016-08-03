@@ -1,0 +1,3 @@
+<td colspan="6">
+  <?php echo __('%%id%% - %%regulation_category_id%% - %%title%% - %%is_enable%% - %%page_view%% - %%release_date%%', array('%%id%%' => link_to($Regulation->getId(), 'regulation_edit', $Regulation), '%%regulation_category_id%%' => get_partial('regulation/regulation_category_id', array('type' => 'list', 'Regulation' => $Regulation)), '%%title%%' => get_partial('regulation/title', array('type' => 'list', 'Regulation' => $Regulation)), '%%is_enable%%' => get_partial('regulation/is_enable', array('type' => 'list', 'Regulation' => $Regulation)), '%%page_view%%' => $Regulation->getPageView(), '%%release_date%%' => get_partial('regulation/release_date', array('type' => 'list', 'Regulation' => $Regulation))), 'messages') ?>
+</td>

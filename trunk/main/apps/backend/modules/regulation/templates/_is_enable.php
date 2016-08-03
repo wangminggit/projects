@@ -1,0 +1,1 @@
+<?php echo $Regulation->getIsEnableTxt(ESC_RAW);?>

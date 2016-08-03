@@ -46,6 +46,10 @@
  * @method     AdminUserQuery rightJoinNews($relationAlias = null) Adds a RIGHT JOIN clause to the query using the News relation
  * @method     AdminUserQuery innerJoinNews($relationAlias = null) Adds a INNER JOIN clause to the query using the News relation
  *
+ * @method     AdminUserQuery leftJoinRegulation($relationAlias = null) Adds a LEFT JOIN clause to the query using the Regulation relation
+ * @method     AdminUserQuery rightJoinRegulation($relationAlias = null) Adds a RIGHT JOIN clause to the query using the Regulation relation
+ * @method     AdminUserQuery innerJoinRegulation($relationAlias = null) Adds a INNER JOIN clause to the query using the Regulation relation
+ *
  * @method     AdminUser findOne(PropelPDO $con = null) Return the first AdminUser matching the query
  * @method     AdminUser findOneOrCreate(PropelPDO $con = null) Return the first AdminUser matching the query, or a new AdminUser object populated from the query conditions when no match is found
  *
@@ -644,6 +648,70 @@ abstract class BaseAdminUserQuery extends ModelCriteria
 		return $this
 			->joinNews($relationAlias, $joinType)
 			->useQuery($relationAlias ? $relationAlias : 'News', 'NewsQuery');
+	}
+
+	/**
+	 * Filter the query by a related Regulation object
+	 *
+	 * @param     Regulation $regulation  the related object to use as filter
+	 * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+	 *
+	 * @return    AdminUserQuery The current query, for fluid interface
+	 */
+	public function filterByRegulation($regulation, $comparison = null)
+	{
+		return $this
+			->addUsingAlias(AdminUserPeer::ID, $regulation->getCreatedByAdminUserId(), $comparison);
+	}
+
+	/**
+	 * Adds a JOIN clause to the query using the Regulation relation
+	 * 
+	 * @param     string $relationAlias optional alias for the relation
+	 * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+	 *
+	 * @return    AdminUserQuery The current query, for fluid interface
+	 */
+	public function joinRegulation($relationAlias = null, $joinType = Criteria::LEFT_JOIN)
+	{
+		$tableMap = $this->getTableMap();
+		$relationMap = $tableMap->getRelation('Regulation');
+		
+		// create a ModelJoin object for this join
+		$join = new ModelJoin();
+		$join->setJoinType($joinType);
+		$join->setRelationMap($relationMap, $this->useAliasInSQL ? $this->getModelAlias() : null, $relationAlias);
+		if ($previousJoin = $this->getPreviousJoin()) {
+			$join->setPreviousJoin($previousJoin);
+		}
+		
+		// add the ModelJoin to the current object
+		if($relationAlias) {
+			$this->addAlias($relationAlias, $relationMap->getRightTable()->getName());
+			$this->addJoinObject($join, $relationAlias);
+		} else {
+			$this->addJoinObject($join, 'Regulation');
+		}
+		
+		return $this;
+	}
+
+	/**
+	 * Use the Regulation relation Regulation object
+	 *
+	 * @see       useQuery()
+	 * 
+	 * @param     string $relationAlias optional alias for the relation,
+	 *                                   to be used as main alias in the secondary query
+	 * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+	 *
+	 * @return    RegulationQuery A secondary query class using the current class as primary query
+	 */
+	public function useRegulationQuery($relationAlias = null, $joinType = Criteria::LEFT_JOIN)
+	{
+		return $this
+			->joinRegulation($relationAlias, $joinType)
+			->useQuery($relationAlias ? $relationAlias : 'Regulation', 'RegulationQuery');
 	}
 
 	/**

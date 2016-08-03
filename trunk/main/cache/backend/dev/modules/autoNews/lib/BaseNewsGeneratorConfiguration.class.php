@@ -72,7 +72,7 @@ abstract class BaseNewsGeneratorConfiguration extends sfModelGeneratorConfigurat
 
   public function getFilterDisplay()
   {
-    return array(  0 => 'news_category_id',  1 => 'title',  2 => 'release_date',  3 => 'is_enable',);
+    return array(  0 => 'news_category_id',  1 => 'title',  2 => 'is_enable',);
   }
 
   public function getFormDisplay()

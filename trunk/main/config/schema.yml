@@ -149,6 +149,28 @@ propel:
     name: { phpName: Name, type: VARCHAR, size: '255', required: false }
     name_short: { phpName: NameShort, type: VARCHAR, size: '255', required: false }
     capital: { phpName: Capital, type: VARCHAR, size: '255', required: false }
+  regulation:
+    _attributes: { phpName: Regulation }
+    id: { phpName: Id, type: INTEGER, size: '11', primaryKey: true, autoIncrement: true, required: true }
+    regulation_category_id: { phpName: RegulationCategoryId, type: INTEGER, size: '11', required: false, foreignTable: regulation_category, foreignReference: id, onDelete: RESTRICT, onUpdate: CASCADE }
+    created_by_admin_user_id: { phpName: CreatedByAdminUserId, type: INTEGER, size: '11', required: false, foreignTable: admin_user, foreignReference: id, onDelete: 'SET NULL', onUpdate: CASCADE }
+    title: { phpName: Title, type: VARCHAR, size: '255', required: true }
+    release_date: { phpName: ReleaseDate, type: DATE, required: false }
+    image: { phpName: Image, type: VARCHAR, size: '255', required: false }
+    summary: { phpName: Summary, type: LONGVARCHAR, required: false }
+    body: { phpName: Body, type: LONGVARCHAR, required: false }
+    is_enable: { phpName: IsEnable, type: INTEGER, size: '11', required: false, defaultValue: '1' }
+    position: { phpName: Position, type: INTEGER, size: '11', required: false }
+    page_view: { phpName: PageView, type: INTEGER, size: '11', required: false, defaultValue: '0' }
+    seo_keywords: { phpName: SeoKeywords, type: LONGVARCHAR, required: false }
+    seo_description: { phpName: SeoDescription, type: LONGVARCHAR, required: false }
+    created_at: { phpName: CreatedAt, type: INTEGER, size: '11', required: false }
+    updated_at: { phpName: UpdatedAt, type: INTEGER, size: '11', required: false }
+    _indexes: { created_by_admin_user_id: [created_by_admin_user_id], regulation_category_id: [regulation_category_id] }
+  regulation_category:
+    _attributes: { phpName: RegulationCategory }
+    id: { phpName: Id, type: INTEGER, size: '11', primaryKey: true, autoIncrement: true, required: true }
+    value: { phpName: Value, type: VARCHAR, size: '255', required: false }
   session:
     _attributes: { phpName: Session }
     id: { phpName: Id, type: VARCHAR, size: '255', primaryKey: true, required: true }

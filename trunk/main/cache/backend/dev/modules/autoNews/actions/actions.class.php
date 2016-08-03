@@ -63,6 +63,7 @@ abstract class autoNewsActions extends sfActions
 
     $this->filters = $this->configuration->getFilterForm($this->getFilters());
     unset($this->filters['created_by_admin_user_id']);
+    unset($this->filters['release_date']);
     unset($this->filters['image']);
     unset($this->filters['summary']);
     unset($this->filters['body']);
@@ -72,7 +73,6 @@ abstract class autoNewsActions extends sfActions
     unset($this->filters['seo_description']);
     unset($this->filters['created_at']);
     unset($this->filters['updated_at']);
-    unset($this->filters['is_show_homepage']);
 
     $this->filters->bind($request->getParameter($this->filters->getName()));
     if ($this->filters->isValid())
@@ -98,7 +98,6 @@ abstract class autoNewsActions extends sfActions
     unset($this->form['seo_description']);
     unset($this->form['created_at']);
     unset($this->form['updated_at']);
-    unset($this->form['is_show_homepage']);
   }
 
   public function executeCreate(sfWebRequest $request)
@@ -110,7 +109,6 @@ abstract class autoNewsActions extends sfActions
     unset($this->form['seo_description']);
     unset($this->form['created_at']);
     unset($this->form['updated_at']);
-    unset($this->form['is_show_homepage']);
     $this->News = $this->form->getObject();
 
     $this->processForm($request, $this->form);
@@ -128,7 +126,6 @@ abstract class autoNewsActions extends sfActions
     unset($this->form['seo_description']);
     unset($this->form['created_at']);
     unset($this->form['updated_at']);
-    unset($this->form['is_show_homepage']);
   }
 
   public function executeUpdate(sfWebRequest $request)
@@ -141,7 +138,6 @@ abstract class autoNewsActions extends sfActions
     unset($this->form['seo_description']);
     unset($this->form['created_at']);
     unset($this->form['updated_at']);
-    unset($this->form['is_show_homepage']);
 
     $this->processForm($request, $this->form);
 
@@ -299,6 +295,7 @@ abstract class autoNewsActions extends sfActions
     {
       $this->filters = $this->configuration->getFilterForm($this->getFilters());
     unset($this->filters['created_by_admin_user_id']);
+    unset($this->filters['release_date']);
     unset($this->filters['image']);
     unset($this->filters['summary']);
     unset($this->filters['body']);
@@ -308,7 +305,6 @@ abstract class autoNewsActions extends sfActions
     unset($this->filters['seo_description']);
     unset($this->filters['created_at']);
     unset($this->filters['updated_at']);
-    unset($this->filters['is_show_homepage']);
     }
 
     $query = $this->filters->buildCriteria($this->getFilters());

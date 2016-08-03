@@ -1,3 +1,12 @@
+regulation:
+  class: sfPropel15RouteCollection
+  options:
+    model:                Regulation
+    module:               regulation
+    prefix_path:          /regulation
+    column:               id
+    with_wildcard_routes: true
+
 blog:
   class: sfPropel15RouteCollection
   options:

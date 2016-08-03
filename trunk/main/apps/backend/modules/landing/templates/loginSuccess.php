@@ -5,7 +5,7 @@
 
 <div id="user_login">
     <div class="login_form">
-        <h1 style="text-align:center;">欢迎登陆 - 汇聚控股系统</h1>
+        <h1 style="text-align:center;">欢迎登陆</h1>
         <form id="validate" method="post" action="/admin.php/landing/login">
             <div class="row-fluid">
                 <div class="input-prepend" title="用户名">
@@ -34,7 +34,7 @@
             </div>
         </form>
         <div class="footer">
-            <span class="footer_text">© <?php echo date('Y', time()); ?> 汇聚控股 </span>
+            <span class="footer_text">© <?php echo date('Y', time()); ?> 青西大宗</span>
         </div>
     </div>
 </div>
