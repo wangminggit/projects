@@ -38,13 +38,13 @@
  * @method     AdminUserQuery rightJoinAdminUserGroup($relationAlias = null) Adds a RIGHT JOIN clause to the query using the AdminUserGroup relation
  * @method     AdminUserQuery innerJoinAdminUserGroup($relationAlias = null) Adds a INNER JOIN clause to the query using the AdminUserGroup relation
  *
+ * @method     AdminUserQuery leftJoinInformation($relationAlias = null) Adds a LEFT JOIN clause to the query using the Information relation
+ * @method     AdminUserQuery rightJoinInformation($relationAlias = null) Adds a RIGHT JOIN clause to the query using the Information relation
+ * @method     AdminUserQuery innerJoinInformation($relationAlias = null) Adds a INNER JOIN clause to the query using the Information relation
+ *
  * @method     AdminUserQuery leftJoinLog($relationAlias = null) Adds a LEFT JOIN clause to the query using the Log relation
  * @method     AdminUserQuery rightJoinLog($relationAlias = null) Adds a RIGHT JOIN clause to the query using the Log relation
  * @method     AdminUserQuery innerJoinLog($relationAlias = null) Adds a INNER JOIN clause to the query using the Log relation
- *
- * @method     AdminUserQuery leftJoinNews($relationAlias = null) Adds a LEFT JOIN clause to the query using the News relation
- * @method     AdminUserQuery rightJoinNews($relationAlias = null) Adds a RIGHT JOIN clause to the query using the News relation
- * @method     AdminUserQuery innerJoinNews($relationAlias = null) Adds a INNER JOIN clause to the query using the News relation
  *
  * @method     AdminUserQuery leftJoinRegulation($relationAlias = null) Adds a LEFT JOIN clause to the query using the Regulation relation
  * @method     AdminUserQuery rightJoinRegulation($relationAlias = null) Adds a RIGHT JOIN clause to the query using the Regulation relation
@@ -523,6 +523,70 @@ abstract class BaseAdminUserQuery extends ModelCriteria
 	}
 
 	/**
+	 * Filter the query by a related Information object
+	 *
+	 * @param     Information $information  the related object to use as filter
+	 * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+	 *
+	 * @return    AdminUserQuery The current query, for fluid interface
+	 */
+	public function filterByInformation($information, $comparison = null)
+	{
+		return $this
+			->addUsingAlias(AdminUserPeer::ID, $information->getCreatedByAdminUserId(), $comparison);
+	}
+
+	/**
+	 * Adds a JOIN clause to the query using the Information relation
+	 * 
+	 * @param     string $relationAlias optional alias for the relation
+	 * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+	 *
+	 * @return    AdminUserQuery The current query, for fluid interface
+	 */
+	public function joinInformation($relationAlias = null, $joinType = Criteria::LEFT_JOIN)
+	{
+		$tableMap = $this->getTableMap();
+		$relationMap = $tableMap->getRelation('Information');
+		
+		// create a ModelJoin object for this join
+		$join = new ModelJoin();
+		$join->setJoinType($joinType);
+		$join->setRelationMap($relationMap, $this->useAliasInSQL ? $this->getModelAlias() : null, $relationAlias);
+		if ($previousJoin = $this->getPreviousJoin()) {
+			$join->setPreviousJoin($previousJoin);
+		}
+		
+		// add the ModelJoin to the current object
+		if($relationAlias) {
+			$this->addAlias($relationAlias, $relationMap->getRightTable()->getName());
+			$this->addJoinObject($join, $relationAlias);
+		} else {
+			$this->addJoinObject($join, 'Information');
+		}
+		
+		return $this;
+	}
+
+	/**
+	 * Use the Information relation Information object
+	 *
+	 * @see       useQuery()
+	 * 
+	 * @param     string $relationAlias optional alias for the relation,
+	 *                                   to be used as main alias in the secondary query
+	 * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+	 *
+	 * @return    InformationQuery A secondary query class using the current class as primary query
+	 */
+	public function useInformationQuery($relationAlias = null, $joinType = Criteria::LEFT_JOIN)
+	{
+		return $this
+			->joinInformation($relationAlias, $joinType)
+			->useQuery($relationAlias ? $relationAlias : 'Information', 'InformationQuery');
+	}
+
+	/**
 	 * Filter the query by a related Log object
 	 *
 	 * @param     Log $log  the related object to use as filter
@@ -584,70 +648,6 @@ abstract class BaseAdminUserQuery extends ModelCriteria
 		return $this
 			->joinLog($relationAlias, $joinType)
 			->useQuery($relationAlias ? $relationAlias : 'Log', 'LogQuery');
-	}
-
-	/**
-	 * Filter the query by a related News object
-	 *
-	 * @param     News $news  the related object to use as filter
-	 * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
-	 *
-	 * @return    AdminUserQuery The current query, for fluid interface
-	 */
-	public function filterByNews($news, $comparison = null)
-	{
-		return $this
-			->addUsingAlias(AdminUserPeer::ID, $news->getCreatedByAdminUserId(), $comparison);
-	}
-
-	/**
-	 * Adds a JOIN clause to the query using the News relation
-	 * 
-	 * @param     string $relationAlias optional alias for the relation
-	 * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
-	 *
-	 * @return    AdminUserQuery The current query, for fluid interface
-	 */
-	public function joinNews($relationAlias = null, $joinType = Criteria::LEFT_JOIN)
-	{
-		$tableMap = $this->getTableMap();
-		$relationMap = $tableMap->getRelation('News');
-		
-		// create a ModelJoin object for this join
-		$join = new ModelJoin();
-		$join->setJoinType($joinType);
-		$join->setRelationMap($relationMap, $this->useAliasInSQL ? $this->getModelAlias() : null, $relationAlias);
-		if ($previousJoin = $this->getPreviousJoin()) {
-			$join->setPreviousJoin($previousJoin);
-		}
-		
-		// add the ModelJoin to the current object
-		if($relationAlias) {
-			$this->addAlias($relationAlias, $relationMap->getRightTable()->getName());
-			$this->addJoinObject($join, $relationAlias);
-		} else {
-			$this->addJoinObject($join, 'News');
-		}
-		
-		return $this;
-	}
-
-	/**
-	 * Use the News relation News object
-	 *
-	 * @see       useQuery()
-	 * 
-	 * @param     string $relationAlias optional alias for the relation,
-	 *                                   to be used as main alias in the secondary query
-	 * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
-	 *
-	 * @return    NewsQuery A secondary query class using the current class as primary query
-	 */
-	public function useNewsQuery($relationAlias = null, $joinType = Criteria::LEFT_JOIN)
-	{
-		return $this
-			->joinNews($relationAlias, $joinType)
-			->useQuery($relationAlias ? $relationAlias : 'News', 'NewsQuery');
 	}
 
 	/**

@@ -97,14 +97,14 @@ abstract class BaseAdminUser extends BaseObject  implements Persistent
 	protected $aAdminUserGroup;
 
 	/**
+	 * @var        array Information[] Collection to store aggregation of Information objects.
+	 */
+	protected $collInformations;
+
+	/**
 	 * @var        array Log[] Collection to store aggregation of Log objects.
 	 */
 	protected $collLogs;
-
-	/**
-	 * @var        array News[] Collection to store aggregation of News objects.
-	 */
-	protected $collNewss;
 
 	/**
 	 * @var        array Regulation[] Collection to store aggregation of Regulation objects.
@@ -601,9 +601,9 @@ abstract class BaseAdminUser extends BaseObject  implements Persistent
 		if ($deep) {  // also de-associate any related objects?
 
 			$this->aAdminUserGroup = null;
-			$this->collLogs = null;
+			$this->collInformations = null;
 
-			$this->collNewss = null;
+			$this->collLogs = null;
 
 			$this->collRegulations = null;
 
@@ -796,16 +796,16 @@ abstract class BaseAdminUser extends BaseObject  implements Persistent
 				$this->resetModified(); // [HL] After being saved an object is no longer 'modified'
 			}
 
-			if ($this->collLogs !== null) {
-				foreach ($this->collLogs as $referrerFK) {
+			if ($this->collInformations !== null) {
+				foreach ($this->collInformations as $referrerFK) {
 					if (!$referrerFK->isDeleted()) {
 						$affectedRows += $referrerFK->save($con);
 					}
 				}
 			}
 
-			if ($this->collNewss !== null) {
-				foreach ($this->collNewss as $referrerFK) {
+			if ($this->collLogs !== null) {
+				foreach ($this->collLogs as $referrerFK) {
 					if (!$referrerFK->isDeleted()) {
 						$affectedRows += $referrerFK->save($con);
 					}
@@ -903,16 +903,16 @@ abstract class BaseAdminUser extends BaseObject  implements Persistent
 			}
 
 
-				if ($this->collLogs !== null) {
-					foreach ($this->collLogs as $referrerFK) {
+				if ($this->collInformations !== null) {
+					foreach ($this->collInformations as $referrerFK) {
 						if (!$referrerFK->validate($columns)) {
 							$failureMap = array_merge($failureMap, $referrerFK->getValidationFailures());
 						}
 					}
 				}
 
-				if ($this->collNewss !== null) {
-					foreach ($this->collNewss as $referrerFK) {
+				if ($this->collLogs !== null) {
+					foreach ($this->collLogs as $referrerFK) {
 						if (!$referrerFK->validate($columns)) {
 							$failureMap = array_merge($failureMap, $referrerFK->getValidationFailures());
 						}
@@ -1231,15 +1231,15 @@ abstract class BaseAdminUser extends BaseObject  implements Persistent
 			// the getter/setter methods for fkey referrer objects.
 			$copyObj->setNew(false);
 
-			foreach ($this->getLogs() as $relObj) {
+			foreach ($this->getInformations() as $relObj) {
 				if ($relObj !== $this) {  // ensure that we don't try to copy a reference to ourselves
-					$copyObj->addLog($relObj->copy($deepCopy));
+					$copyObj->addInformation($relObj->copy($deepCopy));
 				}
 			}
 
-			foreach ($this->getNewss() as $relObj) {
+			foreach ($this->getLogs() as $relObj) {
 				if ($relObj !== $this) {  // ensure that we don't try to copy a reference to ourselves
-					$copyObj->addNews($relObj->copy($deepCopy));
+					$copyObj->addLog($relObj->copy($deepCopy));
 				}
 			}
 
@@ -1341,6 +1341,140 @@ abstract class BaseAdminUser extends BaseObject  implements Persistent
 			 */
 		}
 		return $this->aAdminUserGroup;
+	}
+
+	/**
+	 * Clears out the collInformations collection
+	 *
+	 * This does not modify the database; however, it will remove any associated objects, causing
+	 * them to be refetched by subsequent calls to accessor method.
+	 *
+	 * @return     void
+	 * @see        addInformations()
+	 */
+	public function clearInformations()
+	{
+		$this->collInformations = null; // important to set this to NULL since that means it is uninitialized
+	}
+
+	/**
+	 * Initializes the collInformations collection.
+	 *
+	 * By default this just sets the collInformations collection to an empty array (like clearcollInformations());
+	 * however, you may wish to override this method in your stub class to provide setting appropriate
+	 * to your application -- for example, setting the initial array to the values stored in database.
+	 *
+	 * @return     void
+	 */
+	public function initInformations()
+	{
+		$this->collInformations = new PropelObjectCollection();
+		$this->collInformations->setModel('Information');
+	}
+
+	/**
+	 * Gets an array of Information objects which contain a foreign key that references this object.
+	 *
+	 * If the $criteria is not null, it is used to always fetch the results from the database.
+	 * Otherwise the results are fetched from the database the first time, then cached.
+	 * Next time the same method is called without $criteria, the cached collection is returned.
+	 * If this AdminUser is new, it will return
+	 * an empty collection or the current collection; the criteria is ignored on a new object.
+	 *
+	 * @param      Criteria $criteria optional Criteria object to narrow the query
+	 * @param      PropelPDO $con optional connection object
+	 * @return     PropelCollection|array Information[] List of Information objects
+	 * @throws     PropelException
+	 */
+	public function getInformations($criteria = null, PropelPDO $con = null)
+	{
+		if(null === $this->collInformations || null !== $criteria) {
+			if ($this->isNew() && null === $this->collInformations) {
+				// return empty collection
+				$this->initInformations();
+			} else {
+				$collInformations = InformationQuery::create(null, $criteria)
+					->filterByAdminUser($this)
+					->find($con);
+				if (null !== $criteria) {
+					return $collInformations;
+				}
+				$this->collInformations = $collInformations;
+			}
+		}
+		return $this->collInformations;
+	}
+
+	/**
+	 * Returns the number of related Information objects.
+	 *
+	 * @param      Criteria $criteria
+	 * @param      boolean $distinct
+	 * @param      PropelPDO $con
+	 * @return     int Count of related Information objects.
+	 * @throws     PropelException
+	 */
+	public function countInformations(Criteria $criteria = null, $distinct = false, PropelPDO $con = null)
+	{
+		if(null === $this->collInformations || null !== $criteria) {
+			if ($this->isNew() && null === $this->collInformations) {
+				return 0;
+			} else {
+				$query = InformationQuery::create(null, $criteria);
+				if($distinct) {
+					$query->distinct();
+				}
+				return $query
+					->filterByAdminUser($this)
+					->count($con);
+			}
+		} else {
+			return count($this->collInformations);
+		}
+	}
+
+	/**
+	 * Method called to associate a Information object to this object
+	 * through the Information foreign key attribute.
+	 *
+	 * @param      Information $l Information
+	 * @return     void
+	 * @throws     PropelException
+	 */
+	public function addInformation(Information $l)
+	{
+		if ($this->collInformations === null) {
+			$this->initInformations();
+		}
+		if (!$this->collInformations->contains($l)) { // only add it if the **same** object is not already associated
+			$this->collInformations[]= $l;
+			$l->setAdminUser($this);
+		}
+	}
+
+
+	/**
+	 * If this collection has already been initialized with
+	 * an identical criteria, it returns the collection.
+	 * Otherwise if this AdminUser is new, it will return
+	 * an empty collection; or if this AdminUser has previously
+	 * been saved, it will retrieve related Informations from storage.
+	 *
+	 * This method is protected by default in order to keep the public
+	 * api reasonable.  You can provide public methods for those you
+	 * actually need in AdminUser.
+	 *
+	 * @param      Criteria $criteria optional Criteria object to narrow the query
+	 * @param      PropelPDO $con optional connection object
+	 * @param      string $join_behavior optional join type to use (defaults to Criteria::LEFT_JOIN)
+	 * @return     PropelCollection|array Information[] List of Information objects
+	 */
+	public function getInformationsJoinInformationCategory($criteria = null, $con = null, $join_behavior = Criteria::LEFT_JOIN)
+	{
+		$query = InformationQuery::create(null, $criteria);
+		$query->joinWith('InformationCategory', $join_behavior);
+
+		return $this->getInformations($query, $con);
 	}
 
 	/**
@@ -1500,115 +1634,6 @@ abstract class BaseAdminUser extends BaseObject  implements Persistent
 		$query->joinWith('App', $join_behavior);
 
 		return $this->getLogs($query, $con);
-	}
-
-	/**
-	 * Clears out the collNewss collection
-	 *
-	 * This does not modify the database; however, it will remove any associated objects, causing
-	 * them to be refetched by subsequent calls to accessor method.
-	 *
-	 * @return     void
-	 * @see        addNewss()
-	 */
-	public function clearNewss()
-	{
-		$this->collNewss = null; // important to set this to NULL since that means it is uninitialized
-	}
-
-	/**
-	 * Initializes the collNewss collection.
-	 *
-	 * By default this just sets the collNewss collection to an empty array (like clearcollNewss());
-	 * however, you may wish to override this method in your stub class to provide setting appropriate
-	 * to your application -- for example, setting the initial array to the values stored in database.
-	 *
-	 * @return     void
-	 */
-	public function initNewss()
-	{
-		$this->collNewss = new PropelObjectCollection();
-		$this->collNewss->setModel('News');
-	}
-
-	/**
-	 * Gets an array of News objects which contain a foreign key that references this object.
-	 *
-	 * If the $criteria is not null, it is used to always fetch the results from the database.
-	 * Otherwise the results are fetched from the database the first time, then cached.
-	 * Next time the same method is called without $criteria, the cached collection is returned.
-	 * If this AdminUser is new, it will return
-	 * an empty collection or the current collection; the criteria is ignored on a new object.
-	 *
-	 * @param      Criteria $criteria optional Criteria object to narrow the query
-	 * @param      PropelPDO $con optional connection object
-	 * @return     PropelCollection|array News[] List of News objects
-	 * @throws     PropelException
-	 */
-	public function getNewss($criteria = null, PropelPDO $con = null)
-	{
-		if(null === $this->collNewss || null !== $criteria) {
-			if ($this->isNew() && null === $this->collNewss) {
-				// return empty collection
-				$this->initNewss();
-			} else {
-				$collNewss = NewsQuery::create(null, $criteria)
-					->filterByAdminUser($this)
-					->find($con);
-				if (null !== $criteria) {
-					return $collNewss;
-				}
-				$this->collNewss = $collNewss;
-			}
-		}
-		return $this->collNewss;
-	}
-
-	/**
-	 * Returns the number of related News objects.
-	 *
-	 * @param      Criteria $criteria
-	 * @param      boolean $distinct
-	 * @param      PropelPDO $con
-	 * @return     int Count of related News objects.
-	 * @throws     PropelException
-	 */
-	public function countNewss(Criteria $criteria = null, $distinct = false, PropelPDO $con = null)
-	{
-		if(null === $this->collNewss || null !== $criteria) {
-			if ($this->isNew() && null === $this->collNewss) {
-				return 0;
-			} else {
-				$query = NewsQuery::create(null, $criteria);
-				if($distinct) {
-					$query->distinct();
-				}
-				return $query
-					->filterByAdminUser($this)
-					->count($con);
-			}
-		} else {
-			return count($this->collNewss);
-		}
-	}
-
-	/**
-	 * Method called to associate a News object to this object
-	 * through the News foreign key attribute.
-	 *
-	 * @param      News $l News
-	 * @return     void
-	 * @throws     PropelException
-	 */
-	public function addNews(News $l)
-	{
-		if ($this->collNewss === null) {
-			$this->initNewss();
-		}
-		if (!$this->collNewss->contains($l)) { // only add it if the **same** object is not already associated
-			$this->collNewss[]= $l;
-			$l->setAdminUser($this);
-		}
 	}
 
 	/**
@@ -1782,13 +1807,13 @@ abstract class BaseAdminUser extends BaseObject  implements Persistent
 	public function clearAllReferences($deep = false)
 	{
 		if ($deep) {
-			if ($this->collLogs) {
-				foreach ((array) $this->collLogs as $o) {
+			if ($this->collInformations) {
+				foreach ((array) $this->collInformations as $o) {
 					$o->clearAllReferences($deep);
 				}
 			}
-			if ($this->collNewss) {
-				foreach ((array) $this->collNewss as $o) {
+			if ($this->collLogs) {
+				foreach ((array) $this->collLogs as $o) {
 					$o->clearAllReferences($deep);
 				}
 			}
@@ -1799,8 +1824,8 @@ abstract class BaseAdminUser extends BaseObject  implements Persistent
 			}
 		} // if ($deep)
 
+		$this->collInformations = null;
 		$this->collLogs = null;
-		$this->collNewss = null;
 		$this->collRegulations = null;
 		$this->aAdminUserGroup = null;
 	}

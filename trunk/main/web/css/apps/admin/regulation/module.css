@@ -15,3 +15,6 @@ and open the template in the editor.
     width: 700px;
     resize: none;
 }
+.laydate_box, .laydate_box * {
+box-sizing:content-box;
+}

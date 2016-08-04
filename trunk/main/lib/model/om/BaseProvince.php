@@ -49,11 +49,6 @@ abstract class BaseProvince extends BaseObject  implements Persistent
 	protected $capital;
 
 	/**
-	 * @var        array City[] Collection to store aggregation of City objects.
-	 */
-	protected $collCitys;
-
-	/**
 	 * Flag to prevent endless save loop, if this object is referenced
 	 * by another object which falls in this transaction.
 	 * @var        boolean
@@ -293,8 +288,6 @@ abstract class BaseProvince extends BaseObject  implements Persistent
 
 		if ($deep) {  // also de-associate any related objects?
 
-			$this->collCitys = null;
-
 		} // if (deep)
 	}
 
@@ -460,14 +453,6 @@ abstract class BaseProvince extends BaseObject  implements Persistent
 				$this->resetModified(); // [HL] After being saved an object is no longer 'modified'
 			}
 
-			if ($this->collCitys !== null) {
-				foreach ($this->collCitys as $referrerFK) {
-					if (!$referrerFK->isDeleted()) {
-						$affectedRows += $referrerFK->save($con);
-					}
-				}
-			}
-
 			$this->alreadyInSave = false;
 
 		}
@@ -538,14 +523,6 @@ abstract class BaseProvince extends BaseObject  implements Persistent
 				$failureMap = array_merge($failureMap, $retval);
 			}
 
-
-				if ($this->collCitys !== null) {
-					foreach ($this->collCitys as $referrerFK) {
-						if (!$referrerFK->validate($columns)) {
-							$failureMap = array_merge($failureMap, $referrerFK->getValidationFailures());
-						}
-					}
-				}
 
 
 			$this->alreadyInValidation = false;
@@ -770,20 +747,6 @@ abstract class BaseProvince extends BaseObject  implements Persistent
 		$copyObj->setNameShort($this->name_short);
 		$copyObj->setCapital($this->capital);
 
-		if ($deepCopy) {
-			// important: temporarily setNew(false) because this affects the behavior of
-			// the getter/setter methods for fkey referrer objects.
-			$copyObj->setNew(false);
-
-			foreach ($this->getCitys() as $relObj) {
-				if ($relObj !== $this) {  // ensure that we don't try to copy a reference to ourselves
-					$copyObj->addCity($relObj->copy($deepCopy));
-				}
-			}
-
-		} // if ($deepCopy)
-
-
 		$copyObj->setNew(true);
 		$copyObj->setId(NULL); // this is a auto-increment column, so set to default value
 	}
@@ -827,115 +790,6 @@ abstract class BaseProvince extends BaseObject  implements Persistent
 	}
 
 	/**
-	 * Clears out the collCitys collection
-	 *
-	 * This does not modify the database; however, it will remove any associated objects, causing
-	 * them to be refetched by subsequent calls to accessor method.
-	 *
-	 * @return     void
-	 * @see        addCitys()
-	 */
-	public function clearCitys()
-	{
-		$this->collCitys = null; // important to set this to NULL since that means it is uninitialized
-	}
-
-	/**
-	 * Initializes the collCitys collection.
-	 *
-	 * By default this just sets the collCitys collection to an empty array (like clearcollCitys());
-	 * however, you may wish to override this method in your stub class to provide setting appropriate
-	 * to your application -- for example, setting the initial array to the values stored in database.
-	 *
-	 * @return     void
-	 */
-	public function initCitys()
-	{
-		$this->collCitys = new PropelObjectCollection();
-		$this->collCitys->setModel('City');
-	}
-
-	/**
-	 * Gets an array of City objects which contain a foreign key that references this object.
-	 *
-	 * If the $criteria is not null, it is used to always fetch the results from the database.
-	 * Otherwise the results are fetched from the database the first time, then cached.
-	 * Next time the same method is called without $criteria, the cached collection is returned.
-	 * If this Province is new, it will return
-	 * an empty collection or the current collection; the criteria is ignored on a new object.
-	 *
-	 * @param      Criteria $criteria optional Criteria object to narrow the query
-	 * @param      PropelPDO $con optional connection object
-	 * @return     PropelCollection|array City[] List of City objects
-	 * @throws     PropelException
-	 */
-	public function getCitys($criteria = null, PropelPDO $con = null)
-	{
-		if(null === $this->collCitys || null !== $criteria) {
-			if ($this->isNew() && null === $this->collCitys) {
-				// return empty collection
-				$this->initCitys();
-			} else {
-				$collCitys = CityQuery::create(null, $criteria)
-					->filterByProvince($this)
-					->find($con);
-				if (null !== $criteria) {
-					return $collCitys;
-				}
-				$this->collCitys = $collCitys;
-			}
-		}
-		return $this->collCitys;
-	}
-
-	/**
-	 * Returns the number of related City objects.
-	 *
-	 * @param      Criteria $criteria
-	 * @param      boolean $distinct
-	 * @param      PropelPDO $con
-	 * @return     int Count of related City objects.
-	 * @throws     PropelException
-	 */
-	public function countCitys(Criteria $criteria = null, $distinct = false, PropelPDO $con = null)
-	{
-		if(null === $this->collCitys || null !== $criteria) {
-			if ($this->isNew() && null === $this->collCitys) {
-				return 0;
-			} else {
-				$query = CityQuery::create(null, $criteria);
-				if($distinct) {
-					$query->distinct();
-				}
-				return $query
-					->filterByProvince($this)
-					->count($con);
-			}
-		} else {
-			return count($this->collCitys);
-		}
-	}
-
-	/**
-	 * Method called to associate a City object to this object
-	 * through the City foreign key attribute.
-	 *
-	 * @param      City $l City
-	 * @return     void
-	 * @throws     PropelException
-	 */
-	public function addCity(City $l)
-	{
-		if ($this->collCitys === null) {
-			$this->initCitys();
-		}
-		if (!$this->collCitys->contains($l)) { // only add it if the **same** object is not already associated
-			$this->collCitys[]= $l;
-			$l->setProvince($this);
-		}
-	}
-
-	/**
 	 * Clears the current object and sets all attributes to their default values
 	 */
 	public function clear()
@@ -964,14 +818,8 @@ abstract class BaseProvince extends BaseObject  implements Persistent
 	public function clearAllReferences($deep = false)
 	{
 		if ($deep) {
-			if ($this->collCitys) {
-				foreach ((array) $this->collCitys as $o) {
-					$o->clearAllReferences($deep);
-				}
-			}
 		} // if ($deep)
 
-		$this->collCitys = null;
 	}
 
 	/**

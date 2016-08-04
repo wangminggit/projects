@@ -62,12 +62,12 @@ abstract class BaseRegulationGeneratorConfiguration extends sfModelGeneratorConf
 
   public function getEditTitle()
   {
-    return '编辑信息';
+    return '编辑规则';
   }
 
   public function getNewTitle()
   {
-    return '新建信息';
+    return '新建规则';
   }
 
   public function getFilterDisplay()

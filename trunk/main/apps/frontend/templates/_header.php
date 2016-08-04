@@ -20,33 +20,16 @@ $action = sfContext::getInstance()->getActionName();
                     </ul>
                 </li>
                 <li>
-                    <a href=".././information_center/index" <?php echo $module == 'information_center' ? 'class="header_bg"' : ''; ?>>信息中心</a>
-                    <ul class="sub_menu">
-                        <li><a href=".././information_center/index">青西大宗公告</a></li>
-                        <li><a href=".././information_center/dynamic_state">青西大宗动态</a></li>
-                        <li><a href=".././information_center/business">会员动态</a></li>
-                        <li><a href=".././information_center/business">行业动态</a></li>
-                    </ul>
+                    <a href="/information/index" <?php echo $module == 'information' ? 'class="header_bg"' : ''; ?>>信息中心</a>
                 </li>
                 <li>
                     <a href="/commodity_list/index"  <?php echo $module == 'commodity_list' ? 'class="header_bg"' : ''; ?>>商品目录</a>
                 </li>
                 <li>
-                    <a href="#">规则制度</a>
-                    <ul class="sub_menu">
-                        <li><a href=".././">挂牌流程</a></li>
-                        <li><a href=".././">申购流程</a></li>
-                        <li><a href=".././">交收流程</a></li>
-                        <li><a href=".././">托管流程</a></li>
-                        <li><a href=".././">补充细则</a></li>
-                    </ul>
+                    <a href="/regulation/index" <?php echo $module == 'regulation' ? 'class="header_bg"' : ''; ?>>规则制度</a>
                 </li>
                 <li>
                     <a href="#" >下载专区</a>
-                    <ul class="sub_menu">
-                        <li><a href="#">软件下载</a></li>
-                        <li><a href="#">文档下载</a></li>
-                    </ul>
                 </li>
                 <li>
                     <a href="#">关于我们</a>

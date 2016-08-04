@@ -1,3 +1,0 @@
-all:
-  stylesheets: [/css/apps/frontend/information_center/module.css]
-  javascripts: []

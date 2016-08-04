@@ -57,8 +57,8 @@ class AdminUserTableMap extends TableMap {
 	public function buildRelations()
 	{
     $this->addRelation('AdminUserGroup', 'AdminUserGroup', RelationMap::MANY_TO_ONE, array('admin_user_group_id' => 'id', ), 'RESTRICT', 'CASCADE');
+    $this->addRelation('Information', 'Information', RelationMap::ONE_TO_MANY, array('id' => 'created_by_admin_user_id', ), 'SET NULL', 'CASCADE');
     $this->addRelation('Log', 'Log', RelationMap::ONE_TO_MANY, array('id' => 'created_by_admin_user_id', ), 'SET NULL', 'CASCADE');
-    $this->addRelation('News', 'News', RelationMap::ONE_TO_MANY, array('id' => 'created_by_admin_user_id', ), 'SET NULL', 'CASCADE');
     $this->addRelation('Regulation', 'Regulation', RelationMap::ONE_TO_MANY, array('id' => 'created_by_admin_user_id', ), 'SET NULL', 'CASCADE');
 	} // buildRelations()
 

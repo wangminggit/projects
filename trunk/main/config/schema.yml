@@ -77,12 +77,6 @@ propel:
     date_created: { phpName: DateCreated, type: INTEGER, size: '11', required: true, defaultValue: '0' }
     date_modified: { phpName: DateModified, type: INTEGER, size: '11', required: true, defaultValue: '0' }
     author: { phpName: Author, type: VARCHAR, size: '255', required: true, defaultValue: '' }
-  city:
-    _attributes: { phpName: City }
-    id: { phpName: Id, type: INTEGER, size: '11', primaryKey: true, autoIncrement: true, required: true }
-    province_id: { phpName: ProvinceId, type: INTEGER, size: '11', required: false, foreignTable: province, foreignReference: id, onDelete: CASCADE, onUpdate: CASCADE }
-    name: { phpName: Name, type: VARCHAR, size: '255', required: false }
-    _indexes: { province_id: [province_id] }
   config:
     _attributes: { phpName: Config }
     id: { phpName: Id, type: INTEGER, size: '11', primaryKey: true, autoIncrement: true, required: true }
@@ -99,6 +93,28 @@ propel:
     image_src: { phpName: ImageSrc, type: VARCHAR, size: '255', required: false }
     created_at: { phpName: CreatedAt, type: INTEGER, size: '11', required: false }
     _indexes: { box_type_id: [box_type_id] }
+  information:
+    _attributes: { phpName: Information }
+    id: { phpName: Id, type: INTEGER, size: '11', primaryKey: true, autoIncrement: true, required: true }
+    information_category_id: { phpName: InformationCategoryId, type: INTEGER, size: '11', required: false, foreignTable: information_category, foreignReference: id, onDelete: RESTRICT, onUpdate: CASCADE }
+    created_by_admin_user_id: { phpName: CreatedByAdminUserId, type: INTEGER, size: '11', required: false, foreignTable: admin_user, foreignReference: id, onDelete: 'SET NULL', onUpdate: CASCADE }
+    title: { phpName: Title, type: VARCHAR, size: '255', required: true }
+    release_date: { phpName: ReleaseDate, type: DATE, required: false }
+    image: { phpName: Image, type: VARCHAR, size: '255', required: false }
+    summary: { phpName: Summary, type: LONGVARCHAR, required: false }
+    body: { phpName: Body, type: LONGVARCHAR, required: false }
+    is_enable: { phpName: IsEnable, type: INTEGER, size: '11', required: false, defaultValue: '1' }
+    position: { phpName: Position, type: INTEGER, size: '11', required: false }
+    page_view: { phpName: PageView, type: INTEGER, size: '11', required: false }
+    seo_keywords: { phpName: SeoKeywords, type: LONGVARCHAR, required: false }
+    seo_description: { phpName: SeoDescription, type: LONGVARCHAR, required: false }
+    created_at: { phpName: CreatedAt, type: INTEGER, size: '11', required: false }
+    updated_at: { phpName: UpdatedAt, type: INTEGER, size: '11', required: false }
+    _indexes: { created_by_admin_user_id: [created_by_admin_user_id], information_category_id: [information_category_id] }
+  information_category:
+    _attributes: { phpName: InformationCategory }
+    id: { phpName: Id, type: INTEGER, size: '11', primaryKey: true, autoIncrement: true, required: true }
+    value: { phpName: Value, type: VARCHAR, size: '255', required: false }
   log:
     _attributes: { phpName: Log }
     id: { phpName: Id, type: INTEGER, size: '11', primaryKey: true, autoIncrement: true, required: true }
@@ -121,28 +137,6 @@ propel:
     id: { phpName: Id, type: INTEGER, size: '11', primaryKey: true, autoIncrement: true, required: true }
     message: { phpName: Message, type: BLOB, required: true }
     created_at: { phpName: CreatedAt, type: INTEGER, size: '11', required: false }
-  news:
-    _attributes: { phpName: News }
-    id: { phpName: Id, type: INTEGER, size: '11', primaryKey: true, autoIncrement: true, required: true }
-    created_by_admin_user_id: { phpName: CreatedByAdminUserId, type: INTEGER, size: '11', required: false, foreignTable: admin_user, foreignReference: id, onDelete: 'SET NULL', onUpdate: CASCADE }
-    news_category_id: { phpName: NewsCategoryId, type: INTEGER, size: '11', required: false }
-    title: { phpName: Title, type: VARCHAR, size: '255', required: true }
-    release_date: { phpName: ReleaseDate, type: DATE, required: false }
-    image: { phpName: Image, type: VARCHAR, size: '255', required: false }
-    summary: { phpName: Summary, type: LONGVARCHAR, required: false }
-    body: { phpName: Body, type: LONGVARCHAR, required: false }
-    page_view: { phpName: PageView, type: INTEGER, size: '11', required: false }
-    is_enable: { phpName: IsEnable, type: INTEGER, size: '11', required: false, defaultValue: '1' }
-    position: { phpName: Position, type: INTEGER, size: '11', required: false }
-    seo_keywords: { phpName: SeoKeywords, type: LONGVARCHAR, required: false }
-    seo_description: { phpName: SeoDescription, type: LONGVARCHAR, required: false }
-    created_at: { phpName: CreatedAt, type: INTEGER, size: '11', required: false }
-    updated_at: { phpName: UpdatedAt, type: INTEGER, size: '11', required: false }
-    _indexes: { created_by_admin_user_id: [created_by_admin_user_id] }
-  news_category:
-    _attributes: { phpName: NewsCategory }
-    id: { phpName: Id, type: INTEGER, size: '11', primaryKey: true, autoIncrement: true, required: true }
-    value: { phpName: Value, type: VARCHAR, size: '255', required: false }
   province:
     _attributes: { phpName: Province }
     id: { phpName: Id, type: INTEGER, size: '11', primaryKey: true, autoIncrement: true, required: true }

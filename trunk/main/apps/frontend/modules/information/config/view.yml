@@ -1,0 +1,11 @@
+detailSuccess:
+  metas:
+    title:  信息中心
+  stylesheets: [/css/apps/frontend/information/detail.css]
+  javascripts: []
+  
+indexSuccess:
+  metas:
+    title:  信息中心
+  stylesheets: [/css/apps/frontend/information/module.css]
+  javascripts: []

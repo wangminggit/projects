@@ -2,7 +2,7 @@
 <?php include_partial('regulation/assets') ?>
 
 <div id="sf_admin_container">
-  <h1><?php echo __('编辑信息', array(), 'messages') ?></h1>
+  <h1><?php echo __('编辑规则', array(), 'messages') ?></h1>
 
   <?php include_partial('regulation/flashes') ?>
 

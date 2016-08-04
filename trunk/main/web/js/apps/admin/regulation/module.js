@@ -16,16 +16,16 @@ $(document).ready(function () {
                 'removeformat', '|', 'justifyleft', 'justifycenter', 'justifyright', 'insertorderedlist',
                 'insertunorderedlist', '|', 'emoticons', 'image', 'link', 'table', 'hr', 'fullscreen'],
             cssPath: '/js/3rd/kindeditor/plugins/code/prettify.css',
-            uploadJson: '/admin.php/news/editoruploader',
+            uploadJson: '/admin.php/regulation/editoruploader',
             allowFileManager: false
         });
     });
-new_information('#regulation_release_date');
-new_information('#regulation_filters_release_date');
+buildDate('#regulation_release_date');
+buildDate('#regulation_filters_release_date');
 });
 
-function new_information(id){
-
+function buildDate(id){
+    
 laydate.skin('molv');
 
 laydate({

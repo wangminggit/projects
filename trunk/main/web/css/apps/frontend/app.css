@@ -127,3 +127,31 @@
 .footer_top .add li{
     line-height: 25px;
 }
+.global-pager {
+    height: 25px;
+    width: auto;
+    text-align: center;
+    margin:20px auto;
+}
+.global-pager a {
+    border: 1px solid #eaeaea;
+    color: #333;
+    display: inline-block;
+    height: 24px;
+    line-height: 24px;
+    margin-right: 5px;
+    padding: 0 8px;
+    text-align: center;
+    font-size: 12px;
+}
+.global-pager a:hover {
+    background: #008db7;
+    border: 1px solid #eaeaea;
+    color: #fff;
+}
+.global-pager a.current {
+    background: #008db7;
+    border: 1px solid #eaeaea;
+    color: #fff;
+    font-weight: bold;
+}

@@ -49,7 +49,6 @@ class ProvinceTableMap extends TableMap {
 	 */
 	public function buildRelations()
 	{
-    $this->addRelation('City', 'City', RelationMap::ONE_TO_MANY, array('id' => 'province_id', ), 'CASCADE', 'CASCADE');
 	} // buildRelations()
 
 	/**

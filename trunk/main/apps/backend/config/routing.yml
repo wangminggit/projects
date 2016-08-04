@@ -1,3 +1,12 @@
+information:
+  class: sfPropel15RouteCollection
+  options:
+    model:                Information
+    module:               information
+    prefix_path:          /information
+    column:               id
+    with_wildcard_routes: true
+
 regulation:
   class: sfPropel15RouteCollection
   options:

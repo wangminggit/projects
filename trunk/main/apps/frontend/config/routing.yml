@@ -1,6 +1,14 @@
 # You can find more information about this file on the symfony website:
 # http://www.symfony-project.org/reference/1_4/en/10-Routing
 
+regulationpage:
+  url:   /regulation/detail/:id
+  param: { module: regulation, action: detail }
+  
+informationpage:
+  url:   /information/detail/:id
+  param: { module: information, action: detail }
+  
 homepage:
   url:   /
   param: { module: home, action: index }

@@ -1,0 +1,3 @@
+<td colspan="6">
+  <?php echo __('%%id%% - %%information_category_id%% - %%title%% - %%is_enable%% - %%page_view%% - %%release_date%%', array('%%id%%' => link_to($Information->getId(), 'information_edit', $Information), '%%information_category_id%%' => get_partial('information/information_category_id', array('type' => 'list', 'Information' => $Information)), '%%title%%' => get_partial('information/title', array('type' => 'list', 'Information' => $Information)), '%%is_enable%%' => get_partial('information/is_enable', array('type' => 'list', 'Information' => $Information)), '%%page_view%%' => $Information->getPageView(), '%%release_date%%' => get_partial('information/release_date', array('type' => 'list', 'Information' => $Information))), 'messages') ?>
+</td>

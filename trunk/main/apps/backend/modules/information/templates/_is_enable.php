@@ -1,0 +1,1 @@
+<?php echo $Information->getIsEnableTxt(ESC_RAW);?>

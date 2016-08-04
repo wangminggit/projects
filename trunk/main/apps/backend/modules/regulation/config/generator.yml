@@ -34,6 +34,6 @@ generator:
       form:
         display: [regulation_category_id,title,release_date,image,summary,body,page_view,is_enable]
       edit:
-        title: 编辑信息
+        title: 编辑规则
       new:
-        title: 新建信息
+        title: 新建规则

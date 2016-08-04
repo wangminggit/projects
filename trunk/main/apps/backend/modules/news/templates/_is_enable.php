@@ -1,1 +1,0 @@
-<?php echo $News->getIsEnableTxt(ESC_RAW);?>

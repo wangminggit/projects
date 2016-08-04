@@ -1,0 +1,11 @@
+detailSuccess:
+  metas:
+    title:  规则制度
+  stylesheets: [/css/apps/frontend/regulation/detail.css]
+  javascripts: []
+  
+indexSuccess:
+  metas:
+    title:  规则制度
+  stylesheets: [/css/apps/frontend/regulation/module.css]
+  javascripts: []
