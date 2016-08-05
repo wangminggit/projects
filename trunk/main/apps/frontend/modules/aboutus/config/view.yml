@@ -1,0 +1,27 @@
+recruitSuccess:
+  metas:
+    title:  关于我们
+  stylesheets: [/css/apps/frontend/aboutus/recruit.css]
+  javascripts: []
+
+contactSuccess:
+  metas:
+    title:  关于我们
+  stylesheets: [/css/apps/frontend/aboutus/contact.css]
+  javascripts: []
+  
+
+lawSuccess:
+  metas:
+    title:  关于我们
+  stylesheets: [/css/apps/frontend/aboutus/detail.css]
+  javascripts: []
+ 
+indexSuccess:
+  metas:
+    title:  关于我们
+  stylesheets: [/css/apps/frontend/aboutus/module.css]
+  javascripts: []
+  
+
+  

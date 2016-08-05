@@ -1,3 +1,12 @@
+aboutus:
+  class: sfPropel15RouteCollection
+  options:
+    model:                Aboutus
+    module:               aboutus
+    prefix_path:          /aboutus
+    column:               id
+    with_wildcard_routes: true
+
 information:
   class: sfPropel15RouteCollection
   options:

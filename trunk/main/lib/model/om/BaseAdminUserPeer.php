@@ -407,6 +407,9 @@ abstract class BaseAdminUserPeer {
 	 */
 	public static function clearRelatedInstancePool()
 	{
+		// Invalidate objects in AboutusPeer instance pool, 
+		// since one or more of them may be deleted by ON DELETE CASCADE/SETNULL rule.
+		AboutusPeer::clearInstancePool();
 		// Invalidate objects in InformationPeer instance pool, 
 		// since one or more of them may be deleted by ON DELETE CASCADE/SETNULL rule.
 		InformationPeer::clearInstancePool();
@@ -1001,6 +1004,14 @@ abstract class BaseAdminUserPeer {
 		// first find the objects that are implicated by the $criteria
 		$objects = AdminUserPeer::doSelect($criteria, $con);
 		foreach ($objects as $obj) {
+
+			// set fkey col in related Aboutus rows to NULL
+			$selectCriteria = new Criteria(AdminUserPeer::DATABASE_NAME);
+			$updateValues = new Criteria(AdminUserPeer::DATABASE_NAME);
+			$selectCriteria->add(AboutusPeer::CREATED_BY_ADMIN_USER_ID, $obj->getId());
+			$updateValues->add(AboutusPeer::CREATED_BY_ADMIN_USER_ID, null);
+
+			BasePeer::doUpdate($selectCriteria, $updateValues, $con); // use BasePeer because generated Peer doUpdate() methods only update using pkey
 
 			// set fkey col in related Information rows to NULL
 			$selectCriteria = new Criteria(AdminUserPeer::DATABASE_NAME);

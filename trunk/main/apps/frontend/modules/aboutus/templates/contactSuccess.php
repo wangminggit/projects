@@ -1,10 +1,10 @@
 <div class="information">
     <div class="left">
         <ul>
-            <li><div class="list"><div class="triangle"></div><a href=".././about_us/index" >&nbsp;&nbsp;关于青西大宗</a></div></li>
-            <li><div class="list "><div class="triangle"></div><a href=".././about_us/law">&nbsp;&nbsp;法律声明</a></div></li>
-            <li><div class="list"><div class="triangle"></div><a href=".././about_us/contact" style="color:#035AB7 ">&nbsp;&nbsp;联系我们</a></div></li>
-            <li><div class="list"><div class="triangle"></div><a href=".././about_us/recruit">&nbsp;&nbsp;诚聘英才</a></div></li>
+            <li><div class="list"><div class="triangle"></div><a href="/aboutus/index" >&nbsp;&nbsp;关于青西大宗</a></div></li>
+            <li><div class="list "><div class="triangle"></div><a href="/aboutus/law">&nbsp;&nbsp;法律声明</a></div></li>
+            <li><div class="list"><div class="triangle"></div><a href="/aboutus/contact" style="color:#035AB7 ">&nbsp;&nbsp;联系我们</a></div></li>
+            <li><div class="list"><div class="triangle"></div><a href="/aboutus/recruit">&nbsp;&nbsp;诚聘英才</a></div></li>
         </ul>
     </div>
     <div class="right">
@@ -79,7 +79,7 @@
                 </ul>
             </div>
             <div class="right">
-                
+
             </div>
         </div>
     </div>

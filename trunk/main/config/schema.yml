@@ -2,6 +2,26 @@ propel:
   _attributes:
     package: lib.model
     defaultIdMethod: native
+  aboutus:
+    _attributes: { phpName: Aboutus }
+    id: { phpName: Id, type: INTEGER, size: '11', primaryKey: true, autoIncrement: true, required: true }
+    aboutus_category_id: { phpName: AboutusCategoryId, type: INTEGER, size: '11', required: false, foreignTable: aboutus_category, foreignReference: id, onDelete: RESTRICT, onUpdate: CASCADE }
+    created_by_admin_user_id: { phpName: CreatedByAdminUserId, type: INTEGER, size: '11', required: false, foreignTable: admin_user, foreignReference: id, onDelete: 'SET NULL', onUpdate: CASCADE }
+    title: { phpName: Title, type: VARCHAR, size: '255', required: true }
+    release_date: { phpName: ReleaseDate, type: DATE, required: false }
+    image: { phpName: Image, type: VARCHAR, size: '255', required: false }
+    summary: { phpName: Summary, type: LONGVARCHAR, required: false }
+    body: { phpName: Body, type: LONGVARCHAR, required: false }
+    is_enable: { phpName: IsEnable, type: INTEGER, size: '11', required: false, defaultValue: '1' }
+    position: { phpName: Position, type: INTEGER, size: '11', required: false }
+    page_view: { phpName: PageView, type: INTEGER, size: '11', required: false }
+    created_at: { phpName: CreatedAt, type: INTEGER, size: '11', required: false }
+    updated_at: { phpName: UpdatedAt, type: INTEGER, size: '11', required: false }
+    _indexes: { created_by_admin_user_id: [created_by_admin_user_id], aboutus_category_id: [aboutus_category_id] }
+  aboutus_category:
+    _attributes: { phpName: AboutusCategory }
+    id: { phpName: Id, type: INTEGER, size: '11', primaryKey: true, autoIncrement: true, required: true }
+    value: { phpName: Value, type: VARCHAR, size: '255', required: false }
   admin_category:
     _attributes: { phpName: AdminCategory }
     id: { phpName: Id, type: INTEGER, size: '11', primaryKey: true, autoIncrement: true, required: true }

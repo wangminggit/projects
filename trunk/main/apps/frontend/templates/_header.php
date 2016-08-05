@@ -32,12 +32,12 @@ $action = sfContext::getInstance()->getActionName();
                     <a href="#" >下载专区</a>
                 </li>
                 <li>
-                    <a href="#">关于我们</a>
+                    <a href="/aboutus/index" <?php echo $module == 'aboutus' ? 'class="header_bg"' : ''; ?>>关于我们</a>
                     <ul class="sub_menu">
-                        <li><a href="#">关于青西大宗</a></li>
-                        <li><a href="#">法律声明</a></li>
-                        <li><a href="#">联系我们</a></li>
-                        <li><a href="#">诚聘英才</a></li>
+                        <li><a href="/aboutus/index">关于青西大宗</a></li>
+                        <li><a href="/aboutus/law">法律声明</a></li>
+                        <li><a href="/aboutus/contact">联系我们</a></li>
+                        <li><a href="/aboutus/recruit">诚聘英才</a></li>
                     </ul>
                 </li>
             </ul>
